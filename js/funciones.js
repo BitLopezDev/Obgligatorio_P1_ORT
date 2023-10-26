@@ -1,0 +1,84 @@
+window.addEventListener("load", inicio);
+/**
+ * 
+ */
+
+window.addEventListener("error", handleError);
+
+/**
+ * 
+ * @param {ErrorEvent} event 
+ * @returns boolean
+ */
+function handleError(event) {
+  var errorInfo = {
+    message: event.message,
+    source: event.filename,
+    line: event.lineno,
+    column: event.colno,
+    errorObject: event.error,
+  };
+  error(`Ha ocurrido un error: ${errorInfo.message}`, errorInfo, false);
+
+  return false;
+}
+
+/**
+ * @returns void
+ */
+function inicio() {
+  get("#loginBtn").addEventListener("click", loginUser);
+
+  get("#registerBtn").addEventListener("click", registerUser);
+  get("#contentApp").style.display = "none";
+  loginUser();
+
+
+
+ 
+}
+
+function registerUser() {
+  let registerPswd = get("#registerPswd").value;
+  let registerName = get("#registerName").value;
+  let registerLastName = get("#registerLastName").value;
+  let registerUserName = get("#registerUserName").value;
+  let registerPswd2 = get("#registerPswd2").value;
+  let registerCreditCard = get("#registerCreditCard").value;
+  if (!verifyString(registerName)) {
+    alert("Error en el nombre");
+    return;
+  }
+  if (!verifyString(registerLastName)) {
+    alert("Error en el apellido");
+    return;
+  }
+  if (!verifyString(registerUserName)) {
+    alert("Error en el nombre de usuario");
+    return;
+  }
+  if (!verifyString(purifyThyself(registerCreditCard, ["-"], ""), 16, 16)) {
+    alert(`Error en la tarjeta de credito ${registerCreditCard}`);
+    return;
+  }
+  if (VerifyMayMin(registerPswd, 1, 1, 1, 5)) {
+    if (registerPswd === registerPswd2) {
+      hideLogin();
+    } else {
+      alert("Las contraseñas no son iguales");
+    }
+  } else {
+    alert("Las contraseñas no cumplen los requisitos");
+  }
+}
+
+function loginUser() {
+  //TODO: verify password
+  hideLogin();
+}
+function hideLogin() {
+  hideElement("#loginRegister");
+  get("#contentApp").style.display = "block";
+}
+
+//TODO: Find 'La cantidad de maquinas en uso las define el programador o las define el conjunto de usuarios que hayan iniciado sesión antes que elñ administador?'

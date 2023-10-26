@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obligatorio P1</title>
+</head>
+
+<body>
+    <dialog closed id="dialog">
+        <p id="dialogP">Buen día!</p>
+        <form method="dialog">
+            <button>OK</button>
+        </form>
+    </dialog>
+    <div id="loginRegister">
+        <h2>Formulario de registro</h2>
+        <form id="register">
+            <input id="registerName" placeholder="Ingrese su nombre" type="text" value="Filippo" />
+            <input id="registerLastName" placeholder="Ingrese su Apellido" type="text" value="Muro" />
+
+            <input id="registerUserName" placeholder="Ingrese su nombre de usuario" type="text" value="Flopa" />
+            <input id="registerPswd" placeholder="Ingrese su password" type="text" value="Password123" />
+            <input id="registerPswd2" placeholder="Confirme su password" type="text" value="Password123" />
+            <input id="registerCreditCard" type="text" placeholder="Ingrese su tarjeta de credito"
+                value="1234-1234-1234-1234" />
+            <input id="registerCVC" type="text" placeholder="Ingrese su CVC" value="123" />
+
+            <button id="registerBtn" type="button">Iniciar sesion</button>
+
+
+
+        </form>
+        <br />
+        <hr />
+        <h2>Formulario de Inicio de sesion</h2>
+        <form id="login">
+            <input id="loginUserName" placeholder="Ingrese su nombre de usuario" type="text" />
+            <input id="loginPswd" placeholder="Ingrese su password" type="password" />
+            <button id="loginBtn" type="button">Iniciar sesion</button>
+
+
+
+        </form>
+    </div>
+    <div id="contentApp">
+        <h2>Bienvenido</h2>
+        <hr />
+        <section id="stock">
+            <h2>Máquinas virtuales alquiladas</h2>
+            <table style="border:2px solid black;">
+                <thead style="border:2px solid black;">
+                    <tr>
+                        <th>Instancia</th>
+                        <th>Estado</th>
+                        <th>Veces iniciada</th>
+                        <th>Orden</th>
+                    </tr>
+                </thead>
+                <tbody style="border:2px solid black;">
+                    <tr>
+                        <td>c7.large</td>
+                        <td>Encendida</td>
+                        <td>3 veces</td>
+                        <td>
+                            <select name="" id="">
+                                <option value="turnOff">Apagar</option>
+                                <option value="restart">Reiniciar</option>
+                                <option value="Incicial" disabled>Iniciar</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <br />
+        <section id="catalog">
+
+            <h2>Catálogo de Máquinas virtuales</h2>
+            <br />
+            <input type="text" list="instancias" id="Ej8S2" placeholder="Tipo de instancia" />
+            <datalist id="instancias">
+                <option value="I7.Medium">Almacenamiento Mediano</option>
+                <option value="I7.Large">Almacenamiento grande</option>
+                <option value="R7.small">Memoria pequeña</option>
+                <option value="R7.Medium">Memoria mediana</option>
+                <option value="R7.Large">Memoria grande</option>
+                <option value="C7.Small">Cómputo pequeño</option>
+                <option value="C7.Medium">Cómputo moderado</option>
+                <option value="C7.Large">Cómputo grande</option>
+
+
+            </datalist>
+            <br />
+            <h3>Instancias especializadas en cómputo</h3>
+            <table style="border:2px solid black;">
+                <thead style="border:2px solid black;">
+                    <tr>
+                        <th>Tipo de Instancia</th>
+                        <th>Costo de alquiler</th>
+                        <th>Costo por encendido</th>
+
+
+                        <th>Stock</th>
+                    </tr>
+                </thead>
+                <tbody style="border:2px solid black;">
+                    <tr>
+                        <td>c7.large</td>
+                        <td>U$S 50</td>
+
+                        <td>U$S 6</td>
+                        <td>SI: 4</td>
+
+
+                    </tr>
+                    <tr>
+                        <td>c7.medium</td>
+                        <td>U$S 30</td>
+
+                        <td>U$S 3,50</td>
+                        <td>SI: 4</td>
+
+                    </tr>
+                    <tr>
+                        <td>c7.small</td>
+                        <td>U$S 20</td>
+
+                        <td>U$S 2,50</td>
+                        <td>SI: 4</td>
+
+                    </tr>
+                </tbody>
+            </table>
+            <hr />
+            <h3>Instancias especializadas en memoria</h3>
+            <table style="border:2px solid black;">
+                <thead style="border:2px solid black;">
+                    <tr>
+                        <th>Tipo de Instancia</th>
+                        <th>Costo de alquiler</th>
+                        <th>Costo por encendido</th>
+
+                        
+                        <th>Stock</th>
+                    </tr>
+                </thead>
+                <tbody style="border:2px solid black;">
+                    <tr>
+                        <td>r7.large</td>
+                        <td>U$S 60</td>
+
+                        <td>U$S 7</td>
+                        <td>SI: 4</td>
+
+                    </tr>
+                    <tr>
+                        <td>r7.medium</td>
+                        <td>U$S 50</td>
+
+                        <td>U$S 6,50</td>
+                        <td>SI: 4</td>
+
+                    </tr>
+                    <tr>
+                        <td>r7.small</td>
+                        <td>U$S 35</td>
+
+                        <td>U$S 4</td>
+                        <td>SI: 4</td>
+
+                    </tr>
+                </tbody>
+            </table>
+
+            <hr />
+            <h3>Instancias especializadas en almacenamiento</h3>
+            <table style="border:2px solid black;">
+                <thead style="border:2px solid black;">
+                    <tr>
+                        <th>Tipo de Instancia</th>
+                        <th>Costo de alquiler</th>
+                        <th>Costo por encendido</th>
+
+                        
+                        <th>Stock</th>
+                    </tr>
+                </thead>
+                <tbody style="border:2px solid black;">
+                    <tr>
+                        <td>r7.large</td>
+                        <td>U$S 50</td>
+
+                        <td>U$S 6,50</td>
+                        <td>SI: 4</td>
+
+                    </tr>
+                    <tr>
+                        <td>r7.medium</td>
+                        <td>U$S 30</td>
+
+                        <td>U$S 3,50</td>
+                        <td>SI: 4</td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+        </section>
+
+
+        <!--contentApp ends in Next </div>. DO NOT CODE BELOW THIS COMMENT -->
+    </div>
+    <script src="js/lib.js"></script>
+    <script src="js/clases.js"></script>
+    <script src="js/funciones.js"></script>
+</body>
+
+</html>
