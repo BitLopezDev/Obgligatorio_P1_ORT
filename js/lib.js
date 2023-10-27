@@ -19,6 +19,9 @@ function verifyString(theString, minLength = 2, maxLength = 50) {
 function hideElement(element) {
   get(element).style.display = "none";
 }
+function showElementBlock(element) {
+  get(element).style.display = "block";
+}
 
 /**
  * 

@@ -30,7 +30,7 @@ function inicio() {
   get("#loginBtn").addEventListener("click", loginUser);
 
   get("#registerBtn").addEventListener("click", registerUser);
-  get("#contentApp").style.display = "none";
+  hideElement("#contentApp");
   loginUser();
 
 
@@ -78,7 +78,7 @@ function loginUser() {
 }
 function hideLogin() {
   hideElement("#loginRegister");
-  get("#contentApp").style.display = "block";
+  showElementBlock("#contentApp");
 }
 
 //TODO: Find 'La cantidad de maquinas en uso las define el programador o las define el conjunto de usuarios que hayan iniciado sesión antes que elñ administador?'

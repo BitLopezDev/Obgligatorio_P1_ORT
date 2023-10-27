@@ -1,43 +1,53 @@
+class System {
+    constructor() {
+        this.userList=[];
+        this.toBeApproved=[];
+        //TODO: Preload 5 admins
+        this.adminList=[];
+    }
+    /**
+     * 
+     * @param {number} userID 
+     * @param {number} adminID 
+     * @returns boolean
+     */
+    approveUser(userID, adminID){
+        //
+       return (this.userExists(userID) && this.userExists(adminID));
+            
+    }
+/**
+ * 
+ * @param {number} userID 
+ * @returns boolean;
+ */
+    userExists(userID){
+        return true;
+    }
+
+}
+let userID = 0;
 class User {
-    constructor([name, lastName], [userName, password, userID = 0]){
+    constructor([name, lastName], [userName, password], [creditCard, cvc]){
         this.name = name;
         this.lastName = lastName;
         this.userName = userName;
         this.password = password;
-        this.userID = userID;
+        this.userID = userID++;
+        this.creditCard = creditCard;
+        this.cvc = cvc;
         this.isEnabled = false;
-
-       
-        
- 
-    }
-    /**
-     * @returns boolean
-     */
-
-    isUnique() {
-        //TODO: Verify that userName and userID are unique to this user.
-    }
-
-    enableUser(){
-        /*TODO:userID does not exist until Admin's approval of user.
-        if userID is unique && userID !== 0 => user is valid
-         */
-    }
-
-}
-
-class Client extends User {
-    constructor([name, lastName], [userName, password, userID],) {
-        super([name, lastName], [userName, password, userID]);
-        this.role = 'USER';
-        
     }
 }
 
-class Admin extends User {
-    constructor([name, lastName], [userName, password, userID],) {
-        super([name, lastName], [userName, password, userID]);
-        this.role = 'ADMIN';
+let  adminID = 0;
+class Admin {
+    constructor([name, lastName], [userName, password]){
+        this.name = name;
+        this.lastName = lastName;
+        this.userName = userName;
+        this.password = password;
+        this.userID = userID++;
+        this.adminID= adminID++;
     }
 }
