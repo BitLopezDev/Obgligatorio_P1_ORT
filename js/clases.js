@@ -60,6 +60,12 @@ addUser(name, lastName, userName, password, creditCard = 0, cvc = 0) {
         return user;
       }
     }
+    for (let i = 0; i < this.userList.length; i++) {
+      const user = this.adminList[i];
+      if (user.userName === username && user.password === password) {
+        return user;
+      }
+    }
     return false;
     
   }
@@ -93,6 +99,12 @@ class User {
  
   isCredentialCorrect(username, password) {
     return (this.userName === username && this.password === password);
+  }
+
+  isUserEnabled(){
+
+    return this.isEnabled;
+
   }
 }
 
