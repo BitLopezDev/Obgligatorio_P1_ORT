@@ -62,11 +62,13 @@ function loginUser() {
   let loginPswd = get("#loginPswd").value;
   let userFound =system.findUserByCredentials(loginUserName, loginPswd);
   if(!userFound){
-    alert("Usuario o contraseña incorrectos o usuario no habilitado por administración");
+    alert("Usuario y/o contraseña incorrectos o usuario no habilitado por administración");
   } else {
-    if(loginUserName === userFound.userName && loginPswd === userFound.password){
-      hideLogin();
-    } 
+
+    hideLogin();
+    // if(loginUserName === userFound.userName && loginPswd === userFound.password){
+      
+    // } 
   }
   ;
   
