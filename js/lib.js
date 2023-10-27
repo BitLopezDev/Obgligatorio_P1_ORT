@@ -26,11 +26,10 @@ function showElementBlock(element) {
 /**
  * 
  * @param {string} id : HTML Selector
- * @param {boolean} all 
  * @returns HTMLElement
  */
 
-function get(id, all = false) {
+function get(id) {
  
     return document.querySelector(id);
   

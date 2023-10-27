@@ -1,27 +1,6 @@
 window.addEventListener("load", inicio);
-/**
- * 
- */
 
-window.addEventListener("error", handleError);
-
-/**
- * 
- * @param {ErrorEvent} event 
- * @returns boolean
- */
-function handleError(event) {
-  var errorInfo = {
-    message: event.message,
-    source: event.filename,
-    line: event.lineno,
-    column: event.colno,
-    errorObject: event.error,
-  };
-  error(`Ha ocurrido un error: ${errorInfo.message}`, errorInfo, false);
-
-  return false;
-}
+let system = new System();
 
 /**
  * @returns void
@@ -30,12 +9,9 @@ function inicio() {
   get("#loginBtn").addEventListener("click", loginUser);
 
   get("#registerBtn").addEventListener("click", registerUser);
-  hideElement("#contentApp");
-  loginUser();
-
-
-
- 
+    hideElement("#contentApp");
+  
+  // loginUser();
 }
 
 function registerUser() {
@@ -45,6 +21,8 @@ function registerUser() {
   let registerUserName = get("#registerUserName").value;
   let registerPswd2 = get("#registerPswd2").value;
   let registerCreditCard = get("#registerCreditCard").value;
+  let registerCVC = get("#registerCVC").value;
+  
   if (!verifyString(registerName)) {
     alert("Error en el nombre");
     return;
@@ -63,13 +41,19 @@ function registerUser() {
   }
   if (VerifyMayMin(registerPswd, 1, 1, 1, 5)) {
     if (registerPswd === registerPswd2) {
-      hideLogin();
+      // hideLogin();
+      //TODO: Create user
+      system.addUser(registerName, registerLastName, registerUserName, registerPswd, registerCreditCard =0, registerCVC = 0);
+      
+      
     } else {
       alert("Las contraseñas no son iguales");
     }
   } else {
     alert("Las contraseñas no cumplen los requisitos");
   }
+
+  
 }
 
 function loginUser() {
@@ -82,3 +66,23 @@ function hideLogin() {
 }
 
 //TODO: Find 'La cantidad de maquinas en uso las define el programador o las define el conjunto de usuarios que hayan iniciado sesión antes que elñ administador?'
+
+window.addEventListener("error", handleError);
+
+/**
+ *
+ * @param {ErrorEvent} event
+ * @returns boolean
+ */
+function handleError(event) {
+  var errorInfo = {
+    message: event.message,
+    source: event.filename,
+    line: event.lineno,
+    column: event.colno,
+    errorObject: event.error,
+  };
+  error(`Ha ocurrido un error: ${errorInfo.message}`, errorInfo, false);
+
+  return false;
+}
