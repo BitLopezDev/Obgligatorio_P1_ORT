@@ -61,7 +61,7 @@ function loginUser() {
   let loginUserName = get("#loginUserName").value;
   let loginPswd = get("#loginPswd").value;
   let userFound =system.findUserByCredentials(loginUserName, loginPswd);
-  if(!userFound){
+  if(!userFound || !userFound.isUserEnabled()){
     alert("Usuario y/o contraseña incorrectos o usuario no habilitado por administración");
   } else {
 
