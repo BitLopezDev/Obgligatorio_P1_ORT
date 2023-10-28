@@ -22,9 +22,13 @@ class System {
       "123",
       false
     );
+    this.userList[0].enableUser();
+
+    this.userList[1].enableUser();
+
     // this.toBeApproved=[];
     //TODO: Preload 5 admins
-    
+
     let adminToBe = ["ana", "pippo", "santi", "mile", "nahuel"];
 
     for (let i = 0; i < 5; i++) {
@@ -53,13 +57,12 @@ class System {
       if (user.userName === userName) {
         return true;
       }
-    for (let i = 0; i < this.userList.length; i++) {
-      const user = this.userList[i];
-      if (user.userName === userName) {
-        return true;
+      for (let i = 0; i < this.userList.length; i++) {
+        const user = this.userList[i];
+        if (user.userName === userName) {
+          return true;
+        }
       }
-    }
-   
     }
     return false;
   }
@@ -142,9 +145,9 @@ class User {
   }
 
   enableUser() {
-    if (system.userExists(this.userID)) {
+   
       this.isEnabled = true;
-    }
+    
   }
 
   isCredentialCorrect(username, password) {
@@ -165,6 +168,7 @@ class Admin {
     this.password = password;
     //this.userID = userID++;
     this.adminID = ++adminID;
+    this.isAdmin = true;
   }
 
   enableUser(whichUser) {

@@ -9,8 +9,8 @@ function inicio() {
   get("#loginBtn").addEventListener("click", loginUser);
 
   get("#registerBtn").addEventListener("click", registerUser);
-    hideElement("#contentApp");
-  
+  hideElement("#contentApp");
+
   // loginUser();
 }
 
@@ -22,7 +22,7 @@ function registerUser() {
   let registerPswd2 = get("#registerPswd2").value;
   let registerCreditCard = get("#registerCreditCard").value;
   let registerCVC = get("#registerCVC").value;
-  
+
   if (!verifyString(registerName)) {
     alert("Error en el nombre");
     return;
@@ -43,25 +43,38 @@ function registerUser() {
     if (registerPswd === registerPswd2) {
       // hideLogin();
       //TODO: Create user
-      system.addUser(registerName, registerLastName, registerUserName, registerPswd, registerCreditCard =0, registerCVC = 0);
-      
-      
+      system.addUser(
+        registerName,
+        registerLastName,
+        registerUserName,
+        registerPswd,
+        (registerCreditCard = 0),
+        (registerCVC = 0)
+      );
     } else {
       alert("Las contraseñas no son iguales");
     }
   } else {
     alert("Las contraseñas no cumplen los requisitos");
   }
-
-  
 }
 
 function loginUser() {
   //TODO: verify password
   let loginUserName = get("#loginUserName").value;
   let loginPswd = get("#loginPswd").value;
-  let userFound =system.findUserByCredentials(loginUserName, loginPswd);
-  if(!userFound || !userFound.isUserEnabled()){
+  let userFound = system.findUserByCredentials(loginUserName, loginPswd);
+  if (!userFound || !userFound.isUserEnabled()) {
+    alert(
+      "Usuario y/o contraseña incorrectos o usuario no habilitado por administración"
+    );
+  } else {
+    hideLogin();
+    // if(loginUserName === userFound.userName && loginPswd === userFound.password){
+
+    // }
+  }
+  /*if(!userFound || !userFound.isUserEnabled() ){
     alert("Usuario y/o contraseña incorrectos o usuario no habilitado por administración");
   } else {
 
@@ -69,9 +82,7 @@ function loginUser() {
     // if(loginUserName === userFound.userName && loginPswd === userFound.password){
       
     // } 
-  }
-  ;
-  
+  }*/
 }
 function hideLogin() {
   hideElement("#loginRegister");
