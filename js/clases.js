@@ -27,7 +27,7 @@ class System {
     this.userList[1].enableUser();
 
     // this.toBeApproved=[];
-    //TODO: Preload 5 admins
+   
 
     let adminToBe = ["ana", "pippo", "santi", "mile", "nahuel"];
 
@@ -83,9 +83,19 @@ class System {
     isAdmin = false
   ) {
     if (!this.userExists(userName)) {
-      this.userList.push(
-        new User(name, lastName, userName, password, creditCard, cvc, false)
-      );
+      this.userList.push(new User(name, lastName, userName, password, creditCard, cvc, false));
+      get("#UserApprovalList").innerHTML+=`
+      
+                <tr>
+                  <td>${name}</td>
+                  <td>${lastName}</td>
+                  <td>${userName}</td>
+                  <td><button>Aprobar ${userName}</button></td>
+                  <td><button>Bloquear a ${userName}</button></td>
+
+
+                </tr>
+      `
     } else {
       alert("Usuario ya registrado.");
     }

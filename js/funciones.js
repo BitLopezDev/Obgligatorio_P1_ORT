@@ -10,6 +10,7 @@ function inicio() {
 
   get("#registerBtn").addEventListener("click", registerUser);
   hideElement("#contentApp");
+  hideLogin();
 
   // loginUser();
 }
