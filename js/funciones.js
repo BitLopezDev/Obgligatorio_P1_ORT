@@ -10,7 +10,7 @@ function inicio() {
 
   get("#registerBtn").addEventListener("click", registerUser);
   hideElement("#contentApp");
-  hideLogin();
+  //hideLogin();
 
   // loginUser();
 }
@@ -110,4 +110,8 @@ function handleError(event) {
   error(`Ha ocurrido un error: ${errorInfo.message}`, errorInfo, false);
 
   return false;
+}
+
+function allowUser(user){
+  alert(user);
 }

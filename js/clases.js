@@ -22,12 +22,12 @@ class System {
       "123",
       false
     );
-    this.userList[0].enableUser();
-
-    this.userList[1].enableUser();
+    
+/*
+this.userList[0].enableUser();
+    this.userList[1].enableUser();*/
 
     // this.toBeApproved=[];
-   
 
     let adminToBe = ["ana", "pippo", "santi", "mile", "nahuel"];
 
@@ -83,23 +83,23 @@ class System {
     isAdmin = false
   ) {
     if (!this.userExists(userName)) {
-      this.userList.push(new User(name, lastName, userName, password, creditCard, cvc, false));
-      get("#UserApprovalList").innerHTML+=`
+      this.userList.push(
+        new User(name, lastName, userName, password, creditCard, cvc, false)
+      );
+      get("#UserApprovalList").innerHTML += `
       
                 <tr>
                   <td>${name}</td>
                   <td>${lastName}</td>
                   <td>${userName}</td>
-                  <td><button>Aprobar ${userName}</button></td>
+                  <td><button onclick="system.approveUser(this.id, ${adminID})">Aprobar ${userName}</button></td>
                   <td><button>Bloquear a ${userName}</button></td>
-
-
                 </tr>
-      `
+      `;
+      //TODO: Find out how to procede for user approval
     } else {
       alert("Usuario ya registrado.");
     }
-    // Agrega el usuario a la lista de usuarios
   }
 
   addAdmin(name, lastName, userName, password) {
@@ -143,11 +143,12 @@ class User {
     cvc,
     isAdmin = false
   ) {
+    this.userID = ++userID;
     this.name = name;
     this.lastName = lastName;
     this.userName = userName;
     this.password = password;
-    this.userID = ++userID;
+    
     this.creditCard = creditCard;
     this.cvc = cvc;
     this.isEnabled = false;
@@ -155,9 +156,7 @@ class User {
   }
 
   enableUser() {
-   
-      this.isEnabled = true;
-    
+    this.isEnabled = true;
   }
 
   isCredentialCorrect(username, password) {
@@ -177,6 +176,7 @@ class Admin {
     this.userName = userName;
     this.password = password;
     //this.userID = userID++;
+    this.isEnabled = true;
     this.adminID = ++adminID;
     this.isAdmin = true;
   }
@@ -185,5 +185,8 @@ class Admin {
     system.enableUser(whichUser, this.adminID);
 
     //TODO: averiguar si esto pertenece a la clases sistema o a la clase admin
+  }
+  isUserEnabled() {
+    return this.isEnabled;
   }
 }
