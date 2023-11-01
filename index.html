@@ -49,25 +49,32 @@
         <h2>Bienvenido</h2>
         <hr />
         <section>
-            <h3>Aprobar usuarios</h3>
-            <table border="1px" >
-                <thead>
+            <div id="seccionAdministrador">
+                <h2>Administrador logueado</h2>
+                <input type="button" value="Cerrar" id="btnSalirAdmin" /> <br />
+          
+                <h2>Lista de usuarios</h2>
+                <input type="radio" name="mostrar" id="radioAll" checked> 
+                <label for="radioAll">Todos los usuarios</label>
+                <input type="radio" name="mostrar" id="radioEnabled"> 
+                <label for="radioEnabled">Usuarios activos</label>
+                <input type="radio" name="mostrar" id="radioDisabled"> 
+                <label for="radioDisabled">Usuarios no activos</label>
+                <table >
+                  <thead>
                     <tr>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>Nombre de Usuario</th>
-                        <th>Aprobar</th>
-                        <th>Bloquear</th>
+                      <th>ID</th>
+                      <th>Nombre</th>
+                      <th>Apellido</th>
+                      <th>Nombre de usuario</th>
+                      <th>Activo</th>
+                      <th>Bloqueo</th>
                     </tr>
-
-                </thead>
-                <tbody id="UserApprovalList">
-
-                </tbody>
-            </table>
-            <br />
-            <hr />
-            <br />
+                  </thead>
+                  <tbody id="tablaListarUsuarios"></tbody>
+                </table>
+                
+              </div>
 
             <section id="stock">
                 <h2>Máquinas virtuales alquiladas</h2>

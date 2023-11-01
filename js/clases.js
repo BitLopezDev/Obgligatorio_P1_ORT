@@ -86,16 +86,7 @@ this.userList[0].enableUser();
       this.userList.push(
         new User(name, lastName, userName, password, creditCard, cvc, false)
       );
-      get("#UserApprovalList").innerHTML += `
       
-                <tr>
-                  <td>${name}</td>
-                  <td>${lastName}</td>
-                  <td>${userName}</td>
-                  <td><button onclick="system.approveUser(this.id, ${adminID})">Aprobar ${userName}</button></td>
-                  <td><button>Bloquear a ${userName}</button></td>
-                </tr>
-      `;
       //TODO: Find out how to procede for user approval
     } else {
       alert("Usuario ya registrado.");
@@ -124,7 +115,76 @@ this.userList[0].enableUser();
     }
     return false;
   }
+  findUserByUserName(username) {
+    for (let i = 0; i < this.userList.length; i++) {
+      const user = this.userList[i];
+      if (user.userName === username) {
+        return user;
+      }
+    }
+    for (let i = 0; i < this.adminList.length; i++) {
+      const user = this.adminList[i];
+      if (user.userName === username) {
+        return user;
+      }
+    }
+    return false;
+  }
+  findUserByID(givenID) {
+    for (let i = 0; i < this.userList.length; i++) {
+      const user = this.userList[i];
+      if (user.userID === givenID) {
+        return user;
+      }
+    }
+    for (let i = 0; i < this.adminList.length; i++) {
+      const user = this.adminList[i];
+      if (user.adminID === givenID) {
+        return user;
+      }
+    }
+    return false;
+  }
 
+  isUserEnabled(currentUser){
+    
+  
+     if (currentUser.isEnabled){
+      return true;
+     }    
+     return false;
+    
+  }
+  getEnabledUsers(){
+    let enabledList=[];
+    for (let i = 0; i < this.userList.length; i++) {
+     let currentUser = this.userList[i];
+     if (currentUser.isEnabled){
+      enabledList.push(currentUser);
+     }    
+    }
+    return enabledList;
+    
+  }
+  getDisabledUsers(){
+    let disabledList=[];
+    for (let i = 0; i < this.userList.length; i++) {
+     let currentUser = this.userList[i];
+     if (!currentUser.isEnabled){
+      disabledList.push(currentUser);
+     }    
+    }
+    return disabledList;
+    
+  }
+  getUsers(){
+    let list=[];
+    for (let i = 0; i < this.userList.length; i++) {
+      list.push(this.userList[i]);   
+    }
+    return list;
+    
+  }
   /**
    * @returns string (hardcoded)
    */
@@ -141,7 +201,7 @@ class User {
     password,
     creditCard,
     cvc,
-    isAdmin = false
+    isBlocked = false
   ) {
     this.userID = ++userID;
     this.name = name;
@@ -153,10 +213,22 @@ class User {
     this.cvc = cvc;
     this.isEnabled = false;
     this.isAdmin = false;
+    this.isBlocked = isBlocked;
+  }
+
+  blockUser(){
+    this.isBlocked = true;
+  }
+
+  unBlockUser(){
+    this.isBlocked = false;
   }
 
   enableUser() {
     this.isEnabled = true;
+  }
+  disableUser() {
+    this.isEnabled = false;
   }
 
   isCredentialCorrect(username, password) {
