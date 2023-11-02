@@ -17,7 +17,6 @@ function inicio() {
   get("#radioDisabled").addEventListener("click", loadUserTable);
   get("#logOutbtn").addEventListener("click", logOut);
 
-
   //hideLogin();
 
   // loginUser();
@@ -48,6 +47,10 @@ function registerUser() {
     alert(`Error en la tarjeta de credito ${registerCreditCard}`);
     return;
   }
+  if (!testEjercicio12(purifyThyself(registerCreditCard, ["-"], ""))) {
+    alert(`Error en la tarjeta de credito ${registerCreditCard}`);
+    return;
+  }
   if (VerifyMayMin(registerPswd, 1, 1, 1, 5)) {
     if (registerPswd === registerPswd2) {
       // hideLogin();
@@ -69,7 +72,6 @@ function registerUser() {
 }
 
 function loginUser() {
-
   let loginUserName = get("#loginUserName").value;
   let loginPswd = get("#loginPswd").value;
   let userFound = system.findUserByCredentials(loginUserName, loginPswd);
@@ -78,28 +80,27 @@ function loginUser() {
       "Usuario y/o contraseña incorrectos o usuario no habilitado por administración"
     );
   } else {
-    let type = 'client';
-    if(userFound.isAdmin) {
-      type = 'admin'
+    let type = "client";
+    if (userFound.isAdmin) {
+      type = "admin";
     }
     hideLogin(type);
 
     system.userLoggedIn = userFound;
-    console.log("Usuario Logueado",userFound);
+    // console.log("Usuario Logueado",userFound);
     // if(loginUserName === userFound.userName && loginPswd === userFound.password){
     // }
   }
-
 }
 
-function logOut(){
+function logOut() {
   hideElement("#seccionAdministrador");
   showElementBlock("#loginRegister");
   hideElement("#contentApp");
   system.userLoggedIn = null;
 }
-function hideLogin(userType = 'client') {
-  if(userType=== 'admin'){
+function hideLogin(userType = "client") {
+  if (userType === "admin") {
     showElementBlock("#seccionAdministrador");
   }
   hideElement("#loginRegister");
@@ -108,90 +109,84 @@ function hideLogin(userType = 'client') {
 
 //TODO: Find 'La cantidad de maquinas en uso las define el programador o las define el conjunto de usuarios que hayan iniciado sesión antes que elñ administador?'
 
-
-
-
-
-function loadUserTable(){
+function loadUserTable() {
   let text = "";
   let list;
- 
-  if( get("#radioAll").checked ){
-      list = system.getUsers();
-  } else if( get("#radioEnabled").checked ){
-      list = system.getEnabledUsers();
-  }else{
-      list = system.getDisabledUsers();
+
+  if (get("#radioAll").checked) {
+    list = system.getUsers();
+  } else if (get("#radioEnabled").checked) {
+    list = system.getEnabledUsers();
+  } else {
+    list = system.getDisabledUsers();
   }
 
   for (let i = 0; i < list.length; i++) {
-      let objUsuario = list[i];
-      text += `
+    let objUsuario = list[i];
+    text += `
       <tr>
           <td>${objUsuario.userID}</td>
           <td>${objUsuario.name}</td>
           <td>${objUsuario.lastName}</td>
           <td>${objUsuario.userName}</td>`;
-      if(!objUsuario.isEnabled){
-          text += `<td><input type="button" value="Activar" id="${objUsuario.userID}-enable" class="classEnableDin"></td>`
-      }else{
-          text += `<td><input type="button" value="Desactivar" id="${objUsuario.userID}-disable" class="classDisableDin"></td>`
-      }
-      if(!objUsuario.isBlocked){
-        text += `<td><input type="button" value="Bloquear" id="${objUsuario.userID}-block" class="classBlockDin"></td></tr>`
-    }else{
-        text += `<td><input type="button" value="Desbloquear" id="${objUsuario.userID}-unblock" class="classUnBlockin"></td></tr>`
+    if (!objUsuario.isEnabled) {
+      text += `<td><input type="button" value="Activar" id="${objUsuario.userID}-enable" class="classEnableDin"></td>`;
+    } else {
+      text += `<td><input type="button" value="Desactivar" id="${objUsuario.userID}-disable" class="classDisableDin"></td>`;
     }
-       
+    if (!objUsuario.isBlocked) {
+      text += `<td><input type="button" value="Bloquear" id="${objUsuario.userID}-block" class="classBlockDin"></td></tr>`;
+    } else {
+      text += `<td><input type="button" value="Desbloquear" id="${objUsuario.userID}-unblock" class="classUnBlockin"></td></tr>`;
+    }
   }
   get("#tablaListarUsuarios").innerHTML = text;
   //Luego del innerHTML la tabla y botones existen
   //Este codigo agregar el listener a los botones
   let BtnsEnable = document.querySelectorAll(".classEnableDin");
-  for(let i = 0; i < BtnsEnable.length; i++){
-      let button = BtnsEnable[i];
-      button.addEventListener("click", dinEnable);
+  for (let i = 0; i < BtnsEnable.length; i++) {
+    let button = BtnsEnable[i];
+    button.addEventListener("click", dinEnable);
   }
 
   let BtnDisable = document.querySelectorAll(".classDisableDin");
-  for(let i = 0; i < BtnDisable.length; i++){
-      let button = BtnDisable[i];
-      button.addEventListener("click", Dindisable);
+  for (let i = 0; i < BtnDisable.length; i++) {
+    let button = BtnDisable[i];
+    button.addEventListener("click", Dindisable);
   }
   ////////////
   let BtnsEnable2 = document.querySelectorAll(".classBlockDin");
-  for(let i = 0; i < BtnsEnable2.length; i++){
-      let button = BtnsEnable2[i];
-      button.addEventListener("click", dinBlock);
+  for (let i = 0; i < BtnsEnable2.length; i++) {
+    let button = BtnsEnable2[i];
+    button.addEventListener("click", dinBlock);
   }
 
   let BtnDisable2 = document.querySelectorAll(".classUnBlockin");
-  for(let i = 0; i < BtnDisable2.length; i++){
-      let button = BtnDisable2[i];
-      button.addEventListener("click", dinUnBlock);
+  for (let i = 0; i < BtnDisable2.length; i++) {
+    let button = BtnDisable2[i];
+    button.addEventListener("click", dinUnBlock);
   }
 }
-function dinBlock(){
-  let id = parseInt(this.id)
+function dinBlock() {
+  let id = parseInt(this.id);
   system.findUserByID(id)?.blockUser();
   loadUserTable();
 }
 
 function dinUnBlock() {
-  let id = parseInt(this.id)
+  let id = parseInt(this.id);
   system.findUserByID(id)?.unBlockUser();
   loadUserTable();
 }
 
-function dinEnable(){
-
-  let id = parseInt(this.id)
+function dinEnable() {
+  let id = parseInt(this.id);
   system.findUserByID(id)?.enableUser();
   loadUserTable();
 }
 
-function Dindisable(){
-  let id = parseInt(this.id)
+function Dindisable() {
+  let id = parseInt(this.id);
   system.findUserByID(id)?.disableUser();
   loadUserTable();
 }
