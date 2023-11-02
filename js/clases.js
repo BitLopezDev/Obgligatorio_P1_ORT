@@ -2,6 +2,7 @@ class System {
   constructor() {
     this.userList = [];
     this.adminList = [];
+    this.userLoggedIn = null;
     this.addUser(
       "John",
       "Doe",
@@ -80,7 +81,7 @@ this.userList[0].enableUser();
     password,
     creditCard = 0,
     cvc = 0,
-    isAdmin = false
+    isBlocked = false
   ) {
     if (!this.userExists(userName)) {
       this.userList.push(

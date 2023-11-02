@@ -10,10 +10,13 @@ function inicio() {
 
   get("#registerBtn").addEventListener("click", registerUser);
   hideElement("#contentApp");
+  hideElement("#seccionAdministrador");
   loadUserTable();
   get("#radioAll").addEventListener("click", loadUserTable);
   get("#radioEnabled").addEventListener("click", loadUserTable);
   get("#radioDisabled").addEventListener("click", loadUserTable);
+  get("#logOutbtn").addEventListener("click", logOut);
+
 
   //hideLogin();
 
@@ -75,13 +78,30 @@ function loginUser() {
       "Usuario y/o contraseña incorrectos o usuario no habilitado por administración"
     );
   } else {
-    hideLogin();
+    let type = 'client';
+    if(userFound.isAdmin) {
+      type = 'admin'
+    }
+    hideLogin(type);
+
+    system.userLoggedIn = userFound;
+    console.log("Usuario Logueado",userFound);
     // if(loginUserName === userFound.userName && loginPswd === userFound.password){
     // }
   }
 
 }
+
+function logOut(){
+  hideElement("#seccionAdministrador");
+  showElementBlock("#loginRegister");
+  hideElement("#contentApp");
+  system.userLoggedIn = null;
+}
 function hideLogin(userType = 'client') {
+  if(userType=== 'admin'){
+    showElementBlock("#seccionAdministrador");
+  }
   hideElement("#loginRegister");
   showElementBlock("#contentApp");
 }
@@ -91,10 +111,6 @@ function hideLogin(userType = 'client') {
 
 
 
-
-function allowUser(user){
-  alert(user);
-}
 
 function loadUserTable(){
   let text = "";
