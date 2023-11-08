@@ -3,6 +3,8 @@ class System {
     this.userList = [];
     this.adminList = [];
     this.userLoggedIn = null;
+    this.vms = [];
+
     this.addUser(
       "John",
       "Doe",
@@ -23,8 +25,8 @@ class System {
       "123",
       false
     );
-    
-/*
+
+    /*
 this.userList[0].enableUser();
     this.userList[1].enableUser();*/
 
@@ -35,6 +37,48 @@ this.userList[0].enableUser();
     for (let i = 0; i < 5; i++) {
       this.adminList.push(
         new Admin([adminToBe[i], "ort"], [adminToBe[i], "123456789"])
+      );
+    }
+    let vmsToBe = [
+      "c7.small",
+      "c7.medium",
+      "c7.large",
+      "r7.small",
+      "r7.medium",
+      "r7.large",
+      "i7.medium",
+      "i7.large",
+    ];
+    let vmsTypes = [
+      "computo",
+      "computo",
+      "computo",
+      "memoria",
+      "memoria",
+      "memoria",
+      "almacenamiento",
+      "almacenamiento",
+    ];
+    let vmPrices = [
+      [20, 2.5],
+      [30, 3.5],
+      [50, 6],
+      [35, 4],
+      [50, 6.5],
+      [60, 7],
+      [30, 3.5],
+      [50, 6.5],
+    ];
+
+    for (let index = 0; index < vmsToBe.length; index++) {
+      this.vms.push(
+        new VM(
+          vmsToBe[index],
+          vmsTypes[index],
+          vmPrices[index][0],
+          vmPrices[index][1],
+          15
+        )
       );
     }
   }
@@ -87,7 +131,7 @@ this.userList[0].enableUser();
       this.userList.push(
         new User(name, lastName, userName, password, creditCard, cvc, false)
       );
-      
+
       //TODO: Find out how to procede for user approval
     } else {
       alert("Usuario ya registrado.");
@@ -147,44 +191,38 @@ this.userList[0].enableUser();
     return false;
   }
 
-  isUserEnabled(currentUser){
-    
-  
-     if (currentUser.isEnabled){
+  isUserEnabled(currentUser) {
+    if (currentUser.isEnabled) {
       return true;
-     }    
-     return false;
-    
+    }
+    return false;
   }
-  getEnabledUsers(){
-    let enabledList=[];
+  getEnabledUsers() {
+    let enabledList = [];
     for (let i = 0; i < this.userList.length; i++) {
-     let currentUser = this.userList[i];
-     if (currentUser.isEnabled){
-      enabledList.push(currentUser);
-     }    
+      let currentUser = this.userList[i];
+      if (currentUser.isEnabled) {
+        enabledList.push(currentUser);
+      }
     }
     return enabledList;
-    
   }
-  getDisabledUsers(){
-    let disabledList=[];
+  getDisabledUsers() {
+    let disabledList = [];
     for (let i = 0; i < this.userList.length; i++) {
-     let currentUser = this.userList[i];
-     if (!currentUser.isEnabled){
-      disabledList.push(currentUser);
-     }    
+      let currentUser = this.userList[i];
+      if (!currentUser.isEnabled) {
+        disabledList.push(currentUser);
+      }
     }
     return disabledList;
-    
   }
-  getUsers(){
-    let list=[];
+  getUsers() {
+    let list = [];
     for (let i = 0; i < this.userList.length; i++) {
-      list.push(this.userList[i]);   
+      list.push(this.userList[i]);
     }
     return list;
-    
   }
   /**
    * @returns string (hardcoded)
@@ -209,7 +247,7 @@ class User {
     this.lastName = lastName;
     this.userName = userName;
     this.password = password;
-    
+
     this.creditCard = creditCard;
     this.cvc = cvc;
     this.isEnabled = false;
@@ -217,11 +255,11 @@ class User {
     this.isBlocked = isBlocked;
   }
 
-  blockUser(){
+  blockUser() {
     this.isBlocked = true;
   }
 
-  unBlockUser(){
+  unBlockUser() {
     this.isBlocked = false;
   }
 
@@ -261,5 +299,55 @@ class Admin {
   }
   isUserEnabled() {
     return this.isEnabled;
+  }
+}
+
+let nextVMId = 1;
+class VM {
+  constructor(type, specialization, rentPrice, turnOnPrice, stock) {
+    this.type = type;
+    this.specialization = specialization;
+    this.id = `INSTANCE_ID_${nextVMId++}`;
+    this.rentPrice = rentPrice;
+    this.turnOnPrice = turnOnPrice;
+    this.stock = stock;
+    this.rented = 0;
+  }
+
+  modifyStock(newStock) {
+    if (this.rented > newStock) {
+      return false;
+    }
+    this.stock = newStock;
+  }
+
+  rentVM(){
+    this.rented++;
+    this.stock--;
+  }
+}
+
+//TODO: clases empiezan con mayus
+let rentID = 0;
+class Rent {
+  constructor(VMType, user) {
+    this.VMType = VMType;
+    this.rentID = rentID++;
+    this.user = user;
+    this.state = "ON";
+    this.turnedOnTimes = 0;
+  }
+
+  turnOffVM(rentID) {
+    if (this.rentID === rentID && this.state !== "OFF") {
+      this.state = "OFF";
+    }
+  }
+
+  turnOnVM(rentID) {
+    if (this.rentID === rentID && this.state !== "ON") {
+      this.state = "ON";
+      this.turnedOnTimes++;
+    }
   }
 }
