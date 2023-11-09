@@ -43,9 +43,11 @@ this.userList[0].enableUser();
       "c7.small",
       "c7.medium",
       "c7.large",
+
       "r7.small",
       "r7.medium",
       "r7.large",
+
       "i7.medium",
       "i7.large",
     ];
@@ -319,12 +321,19 @@ class VM {
       return false;
     }
     this.stock = newStock;
+    loadCatalog()
   }
 
   rentVM(){
     this.rented++;
     this.stock--;
+    loadCatalog();
   }
+  endRent(){
+    this.rented--;
+    this.stock++;
+    loadCatalog();
+  };
 }
 
 //TODO: clases empiezan con mayus
@@ -336,6 +345,7 @@ class Rent {
     this.user = user;
     this.state = "ON";
     this.turnedOnTimes = 0;
+    this.VMType.rentVM();
   }
 
   turnOffVM(rentID) {
@@ -349,5 +359,8 @@ class Rent {
       this.state = "ON";
       this.turnedOnTimes++;
     }
+  }
+  endRent(){
+    this.VMType.endRent();
   }
 }

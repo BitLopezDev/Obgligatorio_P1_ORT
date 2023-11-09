@@ -6,6 +6,7 @@ let system = new System();
  * @returns void
  */
 function inicio() {
+
   get("#loginBtn").addEventListener("click", loginUser);
 
   get("#registerBtn").addEventListener("click", registerUser);
@@ -16,7 +17,7 @@ function inicio() {
   get("#radioEnabled").addEventListener("click", loadUserTable);
   get("#radioDisabled").addEventListener("click", loadUserTable);
   get("#logOutbtn").addEventListener("click", logOut);
-
+loadCatalog();
   //hideLogin();
 
   // loginUser();
@@ -166,6 +167,69 @@ function loadUserTable() {
     let button = BtnDisable2[i];
     button.addEventListener("click", dinUnBlock);
   }
+}
+
+function loadCatalog() {
+  let catalogTbodyCompute = get("#catalogTbodyCompute");
+  let catalogTbodyMemory = get("#catalogTbodyMemory");
+  let catalogTbodyAStorage = get("#catalogTbodyAStorage");
+
+  catalogTbodyCompute.innerHTML = `
+  <tr>
+  <td>c7.large</td>
+  <td>U$S 50</td>
+  <td>U$S 6</td>
+  <td>${system.vms[2].stock}</td>
+</tr>
+<tr>
+  <td>c7.medium</td>
+  <td>U$S 30</td>
+  <td>U$S 3,50</td>
+  <td>${system.vms[1].stock}</td>
+</tr>
+<tr>
+  <td>c7.small</td>
+  <td>U$S 20</td>
+  <td>U$S 2,50</td>
+  <td>${system.vms[0].stock}</td>
+</tr>
+  `;
+  catalogTbodyMemory.innerHTML=`
+  <tr>
+  <td>r7.large</td>
+  <td>U$S 60</td>
+
+  <td>U$S 7</td>
+  <td>${system.vms[5].stock}</td>
+</tr>
+<tr>
+  <td>r7.medium</td>
+  <td>U$S 50</td>
+  <td>U$S 6,50</td>
+  <td>${system.vms[4].stock}</td>
+</tr>
+<tr>
+  <td>r7.small</td>
+  <td>U$S 35</td>
+  <td>U$S 4</td>
+  <td>${system.vms[2].stock}</td>
+</tr>
+  `;
+
+  catalogTbodyAStorage.innerHTML=`
+  <tr>
+                            <td>r7.large</td>
+                            <td>U$S 50</td>
+                            <td>U$S 6,50</td>
+                            <td>${system.vms[7].stock}</td>
+                        </tr>
+                        <tr>
+                            <td>r7.medium</td>
+                            <td>U$S 30</td>
+                            <td>U$S 3,50</td>
+                            <td>${system.vms[6].stock}</td>
+                        </tr>
+  `;
 }
 function dinBlock() {
   let id = parseInt(this.id);
