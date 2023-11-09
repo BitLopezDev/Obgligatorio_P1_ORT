@@ -232,12 +232,13 @@ function loadCatalog() {
 }
 
 function loadRented() {
-  
+ 
   tInstancesRented = get("#tInstancesRented");
   let insert = "";
 
   for (let i = 0; i < system.rents.length; i++) {
-    if (system.rents[i].user === system.userLoggedIn) {
+    if (system.rents[i].user === system.userLoggedIn && system.rents[i].VMType.isStillRented) {
+      // console.log(system.rents[i]);
       insert =
         insert +
         `
@@ -253,9 +254,9 @@ function loadRented() {
           `
     <td>
                    <select name="" id="">
-   <option value="turnOff" disabled>Apagar</option>
+   <option value="turnOff" >Apagar</option>
    <option value="restart">Reiniciar</option>
-   <option value="Incicial" >Iniciar</option>
+   <option value="Inciciar" disabled >Iniciar</option>
 </select>             
                             </td>
                         </tr>
@@ -266,15 +267,17 @@ function loadRented() {
           `
     <td>
                    <select name="" id="">
-   <option value="turnOff" >Apagar</option>
+   <option value="turnOff" disabled >Apagar</option>
    <option value="restart">Reiniciar</option>
-   <option value="Incicial" disabled>Iniciar</option>
+   <option value="Inciciar" >Iniciar</option>
 </select>             
                             </td>
                         </tr>
     `;
       }
       tInstancesRented.innerHTML=insert;
+    } else if(system.rents[i].user === system.userLoggedIn && !system.rents[i].VMType.isStillRented){
+      tInstancesRented.innerHTML=``;
     }
   }
 }

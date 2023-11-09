@@ -315,6 +315,7 @@ class VM {
     this.turnOnPrice = turnOnPrice;
     this.stock = stock;
     this.rented = 0;
+    this.isStillRented = false;
     
   }
 
@@ -327,6 +328,7 @@ class VM {
   }
 
   rentVM(){
+    this.isStillRented = true;
     this.rented++;
     this.stock--;
     loadCatalog();
@@ -334,10 +336,11 @@ class VM {
 
   }
   endRent(){
+    this.isStillRented = false;
     this.rented--;
     this.stock++;
     loadCatalog();
-    loadRented()
+    
   };
 }
 
@@ -351,23 +354,25 @@ class Rent {
     this.state = "ON";
     this.turnedOnTimes = 0;
     this.VMType.rentVM();
+    
+
     system.rents.push(this);
     loadRented();
   }
 
-  turnOffVM(rentID) {
-    if (this.rentID === rentID && this.state !== "OFF") {
+  turnOffVM() {
+    if ( this.state !== "OFF") {
       this.state = "OFF";
     }
-    loadRented()
+    loadRented();
   }
 
-  turnOnVM(rentID) {
-    if (this.rentID === rentID && this.state !== "ON") {
+  turnOnVM() {
+    if (this.state !== "ON") {
       this.state = "ON";
       this.turnedOnTimes++;
     }
-    loadRented()
+    loadRented();
   }
   rentsByCurrentUser(){
     let allRents =[];
@@ -381,7 +386,8 @@ class Rent {
   }
   endRent(){
     this.VMType.endRent();
-    //Probably does not work
     loadRented();
+    //Probably does not work
+    
   }
 }
