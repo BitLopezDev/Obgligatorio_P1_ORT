@@ -40,19 +40,17 @@ this.userList[0].enableUser();
         new Admin([adminToBe[i], "ort"], [adminToBe[i], "123456789"])
       );
     }
-    let vmsToBe = [
+     this.vmsToBe = [
       "c7.small",
       "c7.medium",
       "c7.large",
-
       "r7.small",
       "r7.medium",
       "r7.large",
-
       "i7.medium",
       "i7.large",
     ];
-    let vmsTypes = [
+    this.vmsTypes = [
       "computo",
       "computo",
       "computo",
@@ -62,7 +60,7 @@ this.userList[0].enableUser();
       "almacenamiento",
       "almacenamiento",
     ];
-    let vmPrices = [
+    this.vmPrices = [
       [20, 2.5],
       [30, 3.5],
       [50, 6],
@@ -73,13 +71,13 @@ this.userList[0].enableUser();
       [50, 6.5],
     ];
 
-    for (let index = 0; index < vmsToBe.length; index++) {
+    for (let index = 0; index < this.vmsToBe.length; index++) {
       this.vms.push(
         new VM(
-          vmsToBe[index],
-          vmsTypes[index],
-          vmPrices[index][0],
-          vmPrices[index][1],
+          this.vmsToBe[index],
+          this.vmsTypes[index],
+          this.vmPrices[index][0],
+          this.vmPrices[index][1],
           15
         )
       );
@@ -227,6 +225,38 @@ this.userList[0].enableUser();
     }
     return list;
   }
+
+  rentVMfromSystem(type, user = this.userLoggedIn){
+    let specialization= '';
+    if(type.charAt(0) === 'c') {
+      specialization ='Cómputo';
+    } else if(type.charAt(0) === 'r') {
+      specialization ='Memoria';
+    } else if(type.charAt(0) === 'i') {
+      specialization ='Almacenamiento';
+    }
+    let rentPrice =0;
+    let turnOnPrice =0;
+    let stock = 0;
+    let VMType = null;
+    for (let index = 0; index < this.vmsToBe.length; index++) {
+      if(type === this.vmsToBe[index]){
+        rentPrice = this.vmPrices[index][0];
+        turnOnPrice = this.vmPrices[index][1];
+        stock = this.vms[index].stock;
+        VMType =this.vms[index];
+      }
+      
+    }
+    let beenRented = new Rent(VMType, user)
+    // beenRented.rentVM();
+    this.vms.push(
+      beenRented
+      
+    )
+
+  }
+
   /**
    * @returns string (hardcoded)
    */
@@ -327,7 +357,7 @@ class VM {
     loadCatalog()
   }
 
-  rentVM(){
+  rentVM(user= system.userLoggedIn){
     this.isStillRented = true;
     this.rented++;
     this.stock--;
