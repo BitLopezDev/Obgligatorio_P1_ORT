@@ -4,6 +4,7 @@ class System {
     this.adminList = [];
     this.userLoggedIn = null;
     this.vms = [];
+    this.rents =[];
 
     this.addUser(
       "John",
@@ -314,6 +315,7 @@ class VM {
     this.turnOnPrice = turnOnPrice;
     this.stock = stock;
     this.rented = 0;
+    
   }
 
   modifyStock(newStock) {
@@ -328,11 +330,14 @@ class VM {
     this.rented++;
     this.stock--;
     loadCatalog();
+    loadRented();
+
   }
   endRent(){
     this.rented--;
     this.stock++;
     loadCatalog();
+    loadRented()
   };
 }
 
@@ -346,12 +351,15 @@ class Rent {
     this.state = "ON";
     this.turnedOnTimes = 0;
     this.VMType.rentVM();
+    system.rents.push(this);
+    loadRented();
   }
 
   turnOffVM(rentID) {
     if (this.rentID === rentID && this.state !== "OFF") {
       this.state = "OFF";
     }
+    loadRented()
   }
 
   turnOnVM(rentID) {
@@ -359,8 +367,21 @@ class Rent {
       this.state = "ON";
       this.turnedOnTimes++;
     }
+    loadRented()
+  }
+  rentsByCurrentUser(){
+    let allRents =[];
+    for (let index = 0; index < system.rents.length; index++) {
+     if(this.user == system.rents[index].user){
+      allRents.push(this);
+     }
+      
+    }
+    return allRents;
   }
   endRent(){
     this.VMType.endRent();
+    //Probably does not work
+    loadRented();
   }
 }

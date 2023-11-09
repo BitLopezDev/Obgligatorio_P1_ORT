@@ -6,7 +6,6 @@ let system = new System();
  * @returns void
  */
 function inicio() {
-
   get("#loginBtn").addEventListener("click", loginUser);
 
   get("#registerBtn").addEventListener("click", registerUser);
@@ -17,7 +16,7 @@ function inicio() {
   get("#radioEnabled").addEventListener("click", loadUserTable);
   get("#radioDisabled").addEventListener("click", loadUserTable);
   get("#logOutbtn").addEventListener("click", logOut);
-loadCatalog();
+  loadCatalog();
   //hideLogin();
 
   // loginUser();
@@ -194,7 +193,7 @@ function loadCatalog() {
   <td>${system.vms[0].stock}</td>
 </tr>
   `;
-  catalogTbodyMemory.innerHTML=`
+  catalogTbodyMemory.innerHTML = `
   <tr>
   <td>r7.large</td>
   <td>U$S 60</td>
@@ -216,7 +215,7 @@ function loadCatalog() {
 </tr>
   `;
 
-  catalogTbodyAStorage.innerHTML=`
+  catalogTbodyAStorage.innerHTML = `
   <tr>
                             <td>r7.large</td>
                             <td>U$S 50</td>
@@ -231,6 +230,55 @@ function loadCatalog() {
                         </tr>
   `;
 }
+
+function loadRented() {
+  
+  tInstancesRented = get("#tInstancesRented");
+  let insert = "";
+
+  for (let i = 0; i < system.rents.length; i++) {
+    if (system.rents[i].user === system.userLoggedIn) {
+      insert =
+        insert +
+        `
+                        <tr>
+                            <td>${system.rents[i].rentID}</td>
+                            <td>${system.rents[i].state}</td>
+                            <td>${system.rents[i].turnedOnTimes}</td>
+                            
+   `;
+      if (system.rents[i].state === "ON") {
+        insert =
+          insert +
+          `
+    <td>
+                   <select name="" id="">
+   <option value="turnOff" disabled>Apagar</option>
+   <option value="restart">Reiniciar</option>
+   <option value="Incicial" >Iniciar</option>
+</select>             
+                            </td>
+                        </tr>
+    `;
+      } else {
+        insert =
+          insert +
+          `
+    <td>
+                   <select name="" id="">
+   <option value="turnOff" >Apagar</option>
+   <option value="restart">Reiniciar</option>
+   <option value="Incicial" disabled>Iniciar</option>
+</select>             
+                            </td>
+                        </tr>
+    `;
+      }
+      tInstancesRented.innerHTML=insert;
+    }
+  }
+}
+
 function dinBlock() {
   let id = parseInt(this.id);
   system.findUserByID(id)?.blockUser();
