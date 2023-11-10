@@ -17,6 +17,7 @@ function inicio() {
   get("#radioDisabled").addEventListener("click", loadUserTable);
   get("#logOutbtn").addEventListener("click", logOut);
   loadCatalog();
+  
   //hideLogin();
 
   // loginUser();
@@ -72,6 +73,7 @@ function registerUser() {
 }
 
 function loginUser() {
+  get("#tInstancesRented").innerHTML='';
   let loginUserName = get("#loginUserName").value;
   let loginPswd = get("#loginPswd").value;
   let userFound = system.findUserByCredentials(loginUserName, loginPswd);
@@ -84,9 +86,11 @@ function loginUser() {
     if (userFound.isAdmin) {
       type = "admin";
     }
+    
     hideLogin(type);
 
     system.userLoggedIn = userFound;
+    loadRented();
     // console.log("Usuario Logueado",userFound);
     // if(loginUserName === userFound.userName && loginPswd === userFound.password){
     // }
@@ -242,7 +246,7 @@ function loadCatalog() {
 }
 
 function loadRented() {
- 
+//  if(system.userLoggedIn !==)
   tInstancesRented = get("#tInstancesRented");
   let insert = "";
 
