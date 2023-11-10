@@ -167,7 +167,9 @@ function loadUserTable() {
     button.addEventListener("click", dinUnBlock);
   }
 }
-
+function ins(instance){
+alert(instance);
+}
 function loadCatalog() {
   let catalogTbodyCompute = get("#catalogTbodyCompute");
   let catalogTbodyMemory = get("#catalogTbodyMemory");
@@ -179,18 +181,21 @@ function loadCatalog() {
   <td>U$S 50</td>
   <td>U$S 6</td>
   <td>${system.vms[2].stock}</td>
+  <td><button onclick="ins('c7.large');">Alquilar una instancia</button></td>
 </tr>
 <tr>
   <td>c7.medium</td>
   <td>U$S 30</td>
   <td>U$S 3,50</td>
   <td>${system.vms[1].stock}</td>
+  <td><button onclick="ins('c7.medium');">Alquilar una instancia</button></td>
 </tr>
 <tr>
   <td>c7.small</td>
   <td>U$S 20</td>
   <td>U$S 2,50</td>
   <td>${system.vms[0].stock}</td>
+  <td><button onclick="ins('c7.small');">Alquilar una instancia</button></td>
 </tr>
   `;
   catalogTbodyMemory.innerHTML = `
@@ -200,33 +205,38 @@ function loadCatalog() {
 
   <td>U$S 7</td>
   <td>${system.vms[5].stock}</td>
+  <td><button onclick="ins('r7.large');">Alquilar una instancia</button></td>
 </tr>
 <tr>
   <td>r7.medium</td>
   <td>U$S 50</td>
   <td>U$S 6,50</td>
   <td>${system.vms[4].stock}</td>
+  <td><button onclick="ins('r7.medium');">Alquilar una instancia</button></td>
 </tr>
 <tr>
   <td>r7.small</td>
   <td>U$S 35</td>
   <td>U$S 4</td>
   <td>${system.vms[2].stock}</td>
+  <td><button onclick="ins('r7.small');">Alquilar una instancia</button></td>
 </tr>
   `;
 
   catalogTbodyAStorage.innerHTML = `
   <tr>
-                            <td>r7.large</td>
+                            <td>i7.large</td>
                             <td>U$S 50</td>
                             <td>U$S 6,50</td>
                             <td>${system.vms[7].stock}</td>
+                            <td><button onclick="ins('i7.large');">Alquilar una instancia</button></td>
                         </tr>
                         <tr>
-                            <td>r7.medium</td>
+                            <td>i7.medium</td>
                             <td>U$S 30</td>
                             <td>U$S 3,50</td>
                             <td>${system.vms[6].stock}</td>
+                            <td><button onclick="ins('i7.medium');">Alquilar una instancia</button></td>
                         </tr>
   `;
 }
