@@ -172,6 +172,7 @@ function loadUserTable() {
   }
 }
 function instanceRentF(instance){
+  
 system.rentVMfromSystem(instance, system.userLoggedIn);
 }
 function loadCatalog() {

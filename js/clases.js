@@ -248,12 +248,15 @@ this.userList[0].enableUser();
       }
       
     }
-    let beenRented = new Rent(VMType, user)
-    // beenRented.rentVM();
-    this.vms.push(
-      beenRented
-      
-    )
+if((VMType.stock-1)>=0){
+  let beenRented = new Rent(VMType, user)
+  // beenRented.rentVM();
+  this.vms.push(
+    beenRented
+    
+  )
+}
+    
 
   }
 
@@ -383,11 +386,17 @@ class Rent {
     this.user = user;
     this.state = "ON";
     this.turnedOnTimes = 0;
-    this.VMType.rentVM();
+    if((this.VMType.stock -1)>=0) {
+      this.VMType.rentVM();
     
 
-    system.rents.push(this);
-    loadRented();
+      system.rents.push(this);
+      loadRented();
+    } else {
+      // TODO: Change alert for something else;
+      alert("Error");
+    }
+  
   }
 
   turnOffVM() {
