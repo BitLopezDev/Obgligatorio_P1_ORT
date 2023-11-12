@@ -429,4 +429,15 @@ class Rent {
     //Probably does not work
     
   }
+
+  getRentPrice(){
+    return this.VMType.rentPrice;
+  }
+  getOnPrice(){
+    return this.VMType.turnOnPrice * this.turnedOnTimes;
+  }
+  getTotalPrice(){
+    return this.getRentPrice() + this.getOnPrice();
+  }
 }
+

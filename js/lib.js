@@ -23,6 +23,8 @@ function showElementBlock(element) {
   get(element).style.display = "block";
 }
 
+
+
 /**
  * 
  * @param {string} id : HTML Selector

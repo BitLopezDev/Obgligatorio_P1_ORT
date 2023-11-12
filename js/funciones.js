@@ -17,10 +17,7 @@ function inicio() {
   get("#radioDisabled").addEventListener("click", loadUserTable);
   get("#logOutbtn").addEventListener("click", logOut);
   loadCatalog();
-
-  //hideLogin();
-
-  // loginUser();
+  get("#WhichVMButton").addEventListener("click", loadRented);
 }
 
 function registerUser() {
@@ -250,54 +247,64 @@ function turnOffF(rentInstance) {
 }
 
 function loadRented() {
-  //  if(system.userLoggedIn !==)
- let tInstancesRented = get("#tInstancesRented");
-  let insert = "";
+  let toShow =system.rents;
+  let which = get("#VMschoice").value;
+  let tInstancesRented = get("#tInstancesRented");
 
-  for (let i = 0; i < system.rents.length; i++) {
+  let insert = "";
+ let whichClass ='';
+  
+  for (let i = 0; i < toShow.length; i++) {
     if (
-      system.rents[i].user === system.userLoggedIn &&
-      system.rents[i].VMType.isStillRented
+      toShow[i].user === system.userLoggedIn &&
+      toShow[i].VMType.isStillRented
     ) {
-      // console.log(system.rents[i]);
+      //console.log(system.rents[i]);
+      if((toShow[i].state=== "ON" && which==='off') || (toShow[i].state=== "OFF" && which==='on')) {
+
+             whichClass = 'isHidden'   ;              
+      } else {
+        whichClass ='';
+      }
       insert =
         insert +
         `
-                        <tr>
-                            <td>${system.rents[i].rentID}</td>
-                            <td>${system.rents[i].VMType.type}</td>
-                            <td>${system.rents[i].VMType.specialization}</td>
-                            <td>${system.rents[i].state}</td>
-                            <td>${system.rents[i].turnedOnTimes}</td>
+                         <tr class ="${whichClass}">
+                             <td>${toShow[i].rentID}</td>
+                             <td>${toShow[i].VMType.type}</td>
+                             <td>${toShow[i].VMType.specialization}</td>
+                             <td>${toShow[i].state}</td>
+                             <td>${toShow[i].turnedOnTimes}</td>
+                             <td>${toShow[i].getTotalPrice()}</td>
                             
-   `;
-      if (system.rents[i].state === "ON") {
+    `;
+      if (toShow[i].state === "ON") {
         insert =
           insert +
           `
-    <td>
-    <button onclick="system.rents[${i}].turnOffVM()">Apagar</button>
+     <td>
+     <button onclick="system.rents[${i}].turnOffVM()">Apagar</button>
 
             
-                            </td>
-                            <td>
-                            <button onclick="system.rents[${i}].endRent()">Desalquilar</button>            
-                            </td>
-                        </tr>
-    `;
+                             </td>
+                             <td>
+                             <button onclick="system.rents[${i}].endRent()">Desalquilar</button>            
+                             </td>
+                         </tr>
+     `;
       } else {
         insert =
           insert +
           `
-    <td>
-    <button onclick="system.rents[${i}].turnOnVM()">Apagar</button>             
-                            </td>
-                            <td>
-                   <button onclick="system.rents[${i}].endRent()">Desalquilar</button>            
-                            </td>
-                        </tr>
-                        </tr>
-    `;
+     <td>
+     <button onclick="system.rents[${i}].turnOnVM()">Prender</button>             
+                             </td>
+                             <td>
+                    <button onclick="system.rents[${i}].endRent()">Desalquilar</button>            
+                             </td>
+                         </tr>
+                         </tr>
+     `;
       }
       tInstancesRented.innerHTML = insert;
     } else if (
@@ -308,6 +315,7 @@ function loadRented() {
     }
   }
 }
+function filterVMs() {}
 
 function dinBlock() {
   let id = parseInt(this.id);

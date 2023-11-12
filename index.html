@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Obligatorio P1</title>
+    <style>
+        .isHidden {
+            display:none !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -61,7 +66,7 @@
                 <label for="radioEnabled">Usuarios activos</label>
                 <input type="radio" name="mostrar" id="radioDisabled"> 
                 <label for="radioDisabled">Usuarios no activos</label>
-                <table >
+                <table  >
                   <thead>
                     <tr>
                       <th>ID</th>
@@ -79,7 +84,17 @@
 
             <section id="stock">
                 <h2>Máquinas virtuales alquiladas</h2>
-                <table style="border:2px solid black;">
+
+                    <select id="VMschoice">
+                        <option value="on">Encendidas</option>
+                        <option value="off">Apagadas</option>
+                        <option value="all">Todas</option>
+
+
+                    </select>
+                    <button id="WhichVMButton">Mostrar</button>
+                    <br /><br />
+                <table border="1px" >
                     <thead style="border:2px solid black;">
                         <tr>
                             <th>ID de Instancia</th>
@@ -88,9 +103,11 @@
                             <th>Estado</th>
                             <th>Veces iniciada</th>
                             <th>Estado</th>
+                            <th>Costo</th>
                             <th>Alquiler</th>
 
                         </tr>
+                        
                     </thead>
                     <tbody style="border:2px solid black;" id="tInstancesRented">
 
