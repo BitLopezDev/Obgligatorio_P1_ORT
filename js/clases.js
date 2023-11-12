@@ -378,7 +378,7 @@ class VM {
 }
 
 //TODO: clases empiezan con mayus
-let rentID = 0;
+let rentID = 1;
 class Rent {
   constructor(VMType, user) {
     this.VMType = VMType;

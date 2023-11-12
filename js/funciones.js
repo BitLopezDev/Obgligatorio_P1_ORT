@@ -17,7 +17,7 @@ function inicio() {
   get("#radioDisabled").addEventListener("click", loadUserTable);
   get("#logOutbtn").addEventListener("click", logOut);
   loadCatalog();
-  
+
   //hideLogin();
 
   // loginUser();
@@ -73,7 +73,7 @@ function registerUser() {
 }
 
 function loginUser() {
-  get("#tInstancesRented").innerHTML='';
+  get("#tInstancesRented").innerHTML = "";
   let loginUserName = get("#loginUserName").value;
   let loginPswd = get("#loginPswd").value;
   let userFound = system.findUserByCredentials(loginUserName, loginPswd);
@@ -86,7 +86,7 @@ function loginUser() {
     if (userFound.isAdmin) {
       type = "admin";
     }
-    
+
     hideLogin(type);
 
     system.userLoggedIn = userFound;
@@ -171,9 +171,8 @@ function loadUserTable() {
     button.addEventListener("click", dinUnBlock);
   }
 }
-function instanceRentF(instance){
-  
-system.rentVMfromSystem(instance, system.userLoggedIn);
+function instanceRentF(instance) {
+  system.rentVMfromSystem(instance, system.userLoggedIn);
 }
 function loadCatalog() {
   let catalogTbodyCompute = get("#catalogTbodyCompute");
@@ -246,13 +245,20 @@ function loadCatalog() {
   `;
 }
 
+function turnOffF(rentInstance) {
+  rentInstance.turnOffVM();
+}
+
 function loadRented() {
-//  if(system.userLoggedIn !==)
-  tInstancesRented = get("#tInstancesRented");
+  //  if(system.userLoggedIn !==)
+ let tInstancesRented = get("#tInstancesRented");
   let insert = "";
 
   for (let i = 0; i < system.rents.length; i++) {
-    if (system.rents[i].user === system.userLoggedIn && system.rents[i].VMType.isStillRented) {
+    if (
+      system.rents[i].user === system.userLoggedIn &&
+      system.rents[i].VMType.isStillRented
+    ) {
       // console.log(system.rents[i]);
       insert =
         insert +
@@ -270,11 +276,12 @@ function loadRented() {
           insert +
           `
     <td>
-                   <select name="" id="">
-   <option value="turnOff" >Apagar</option>
-   <option value="restart">Reiniciar</option>
-   <option value="Inciciar" disabled >Iniciar</option>
-</select>             
+    <button onclick="system.rents[${i}].turnOffVM()">Apagar</button>
+
+            
+                            </td>
+                            <td>
+                            <button onclick="system.rents[${i}].endRent()">Desalquilar</button>            
                             </td>
                         </tr>
     `;
@@ -283,18 +290,21 @@ function loadRented() {
           insert +
           `
     <td>
-                   <select name="" id="">
-   <option value="turnOff" disabled >Apagar</option>
-   <option value="restart">Reiniciar</option>
-   <option value="Inciciar" >Iniciar</option>
-</select>             
+    <button onclick="system.rents[${i}].turnOnVM()">Apagar</button>             
                             </td>
+                            <td>
+                   <button onclick="system.rents[${i}].endRent()">Desalquilar</button>            
+                            </td>
+                        </tr>
                         </tr>
     `;
       }
-      tInstancesRented.innerHTML=insert;
-    } else if(system.rents[i].user === system.userLoggedIn && !system.rents[i].VMType.isStillRented){
-      tInstancesRented.innerHTML=``;
+      tInstancesRented.innerHTML = insert;
+    } else if (
+      system.rents[i].user === system.userLoggedIn &&
+      !system.rents[i].VMType.isStillRented
+    ) {
+      tInstancesRented.innerHTML = ``;
     }
   }
 }
