@@ -18,6 +18,9 @@ function inicio() {
   get("#logOutbtn").addEventListener("click", logOut);
   loadCatalog();
   get("#WhichVMButton").addEventListener("click", loadRented);
+  //TODO: Remove following line
+  // hideLogin('admin');
+  
 }
 
 function registerUser() {
@@ -339,6 +342,27 @@ function Dindisable() {
   let id = parseInt(this.id);
   system.findUserByID(id)?.disableUser();
   loadUserTable();
+}
+
+function writeAct(){
+  let adminLog = get("#adminLog");
+  let log = system.activity;
+
+  let insert=``;
+
+  for (let index = 0; index < log.length; index++) {
+    insert = insert += `
+    <tr>
+    <td>${log[index][0]}</td> 
+    <td>${log[index][1]}</td>
+    <td>${log[index][2]}</td>
+    <td><pre>${log[index][3]}</pre></td>
+    </tr>
+    `;
+    
+  }
+  adminLog.innerHTML=insert;
+
 }
 
 /////////////////////// DO NOT CODE BELLOW ///////////////////////// DO NOT CODE BELLOW ///////////

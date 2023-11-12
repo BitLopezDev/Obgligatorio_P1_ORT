@@ -4,6 +4,7 @@ class System {
     this.adminList = [];
     this.userLoggedIn = null;
     this.vms = [];
+    this.activity =[];
     this.rents =[];
 
     this.addUser(
@@ -129,11 +130,12 @@ this.userList[0].enableUser();
     isBlocked = false
   ) {
     if (!this.userExists(userName)) {
+      
       this.userList.push(
         new User(name, lastName, userName, password, creditCard, cvc, false)
       );
 
-      //TODO: Find out how to procede for user approval
+      
     } else {
       alert("Usuario ya registrado.");
     }
@@ -144,6 +146,19 @@ this.userList[0].enableUser();
     this.userList.push(
       new User(name, lastName, userName, password, creditCard, cvc)
     );
+    this.logActivity(`Se agrega un Admin al sistema`, `SYSTEM`, `Se agrego: ${userName}`,);
+  }
+   /**
+   * 
+   * @param {string} activity 
+   * @param {string} users 
+   * @param {string} details 
+   * @param  {...String[]} others 
+   */
+   logActivity(activity, users, details, ...others){
+    this.activity.push([activity, users, details, JSON.stringify(others) || 'No hay extras para este evento' ]);
+    writeAct();
+
   }
 
   findUserByCredentials(username, password) {
@@ -259,7 +274,18 @@ if((VMType.stock-1)>=0){
     
 
   }
+  /**
+   * 
+   * @param {string} activity 
+   * @param {string} users 
+   * @param {string} details 
+   * @param  {...String[]} others 
+   */
+  logActivity(activity, users, details, ...others){
+    this.activity.push([activity, users, details, JSON.stringify(others) || 'No hay extras para este evento' ]);
+    writeAct();
 
+  }
   /**
    * @returns string (hardcoded)
    */
@@ -293,21 +319,29 @@ class User {
 
   blockUser() {
     this.isBlocked = true;
+    system.logActivity(`Se bloqueó usuario`, `${this.userName}`, `Bloqueado por: ${system.userLoggedIn.userName}`,[JSON.stringify(system.userLoggedIn)]);
   }
 
   unBlockUser() {
     this.isBlocked = false;
+    system.logActivity(`Se Habilitó un usuario`, `${this.userName}`, `Habilitado por: ${system.userLoggedIn.userName}`,[JSON.stringify(system.userLoggedIn)]);
+
   }
 
   enableUser() {
     this.isEnabled = true;
+    system.logActivity(`Se Deshabilitó un usuario`, `${this.userName}`, `Deshabilitado por: ${system.userLoggedIn.userName}`,[JSON.stringify(system.userLoggedIn)]);
+
   }
   disableUser() {
     this.isEnabled = false;
+    system.logActivity(`Se Deshabilitó un usuario`, `${this.userName}`, `Deshabilitado por: ${system.userLoggedIn.userName}`,[JSON.stringify(system.userLoggedIn)]);
+
   }
 
   isCredentialCorrect(username, password) {
     return this.userName === username && this.password === password;
+    
   }
 
   isUserEnabled() {
@@ -331,7 +365,8 @@ class Admin {
   enableUser(whichUser) {
     system.enableUser(whichUser, this.adminID);
 
-    //TODO: averiguar si esto pertenece a la clases sistema o a la clase admin
+    system.logActivity(`Se ordena habilitar un usuario`, `${whichUser}`, `No hay detalles`, [this.adminID]);
+    
   }
   isUserEnabled() {
     return this.isEnabled;
@@ -354,16 +389,26 @@ class VM {
 
   modifyStock(newStock) {
     if (this.rented > newStock) {
+      system.logActivity(`Se intentó cambiar el stock de ${this.type}`, `SYSTEM`, `Se retornó: false;`,);
+
       return false;
     }
     this.stock = newStock;
-    loadCatalog()
+    system.logActivity(`Se cambió el stock de ${this.type}`, `SYSTEM`, `Nuevo Stock: ${newStock}`,);
+
+
+    loadCatalog();
+    
+
   }
 
   rentVM(user= system.userLoggedIn){
+
+
     this.isStillRented = true;
     this.rented++;
     this.stock--;
+    system.logActivity(`Se renta VM`, `${user.userName}`, `${this.type}`);
     loadCatalog();
     loadRented();
 
@@ -372,6 +417,7 @@ class VM {
     this.isStillRented = false;
     this.rented--;
     this.stock++;
+    system.logActivity(`Se finalizo una renta:`, `${system.userLoggedIn.userName}`, `${this.type}`,);
     loadCatalog();
     
   };
@@ -402,6 +448,8 @@ class Rent {
   turnOffVM() {
     if ( this.state !== "OFF") {
       this.state = "OFF";
+system.logActivity(`Se apagó una instancia de VM: ${rentID}`, `${system.userLoggedIn.userName}`, `System Event`,);
+
     }
     loadRented();
   }
@@ -410,6 +458,8 @@ class Rent {
     if (this.state !== "ON") {
       this.state = "ON";
       this.turnedOnTimes++;
+system.logActivity(`Se prendió una instancia de VM: ${this.rentID}`, `${system.userLoggedIn.username}`, ``,);
+
     }
     loadRented();
   }
@@ -427,6 +477,7 @@ class Rent {
     this.VMType.endRent();
     loadRented();
     //Probably does not work
+system.logActivity(`Se ordena finalizar renta`, `SYSTEM`, ``,);
     
   }
 

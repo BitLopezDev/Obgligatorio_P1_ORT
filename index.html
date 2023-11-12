@@ -7,7 +7,7 @@
     <title>Obligatorio P1</title>
     <style>
         .isHidden {
-            display:none !important;
+            display: none !important;
         }
     </style>
 </head>
@@ -56,45 +56,56 @@
         <hr />
         <section>
             <div id="seccionAdministrador">
+                <center>
                 <h2>Administrador logueado</h2>
-                 <br />
-          
+                <br />
+
                 <h2>Lista de usuarios</h2>
-                <input type="radio" name="mostrar" id="radioAll" checked> 
+                <input type="radio" name="mostrar" id="radioAll" checked>
                 <label for="radioAll">Todos los usuarios</label>
-                <input type="radio" name="mostrar" id="radioEnabled"> 
+                <input type="radio" name="mostrar" id="radioEnabled">
                 <label for="radioEnabled">Usuarios activos</label>
-                <input type="radio" name="mostrar" id="radioDisabled"> 
+                <input type="radio" name="mostrar" id="radioDisabled">
                 <label for="radioDisabled">Usuarios no activos</label>
-                <table  >
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Nombre</th>
-                      <th>Apellido</th>
-                      <th>Nombre de usuario</th>
-                      <th>Activo</th>
-                      <th>Bloqueo</th>
-                    </tr>
-                  </thead>
-                  <tbody id="tablaListarUsuarios"></tbody>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Nombre de usuario</th>
+                            <th>Activo</th>
+                            <th>Bloqueo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaListarUsuarios"></tbody>
                 </table>
+                <br />
                 
-              </div>
+                <table border="1px">
+                    <thead>
+                        <tr><th>Actividad</th> <th>Usuario</th><th>Detalles</th><th>Misceláneo</th></tr>
+                    </thead>
+                    <tbody id="adminLog"></tbody>
+                </table>
+                <hr />
+</center>
+            </div>
 
             <section id="stock">
                 <h2>Máquinas virtuales alquiladas</h2>
 
-                    <select id="VMschoice">
-                        <option value="on">Encendidas</option>
-                        <option value="off">Apagadas</option>
-                        <option value="all">Todas</option>
+                <select id="VMschoice">
+                    <option value="all" selected>Todas</option>
+                    <option value="on">Encendidas</option>
+                    <option value="off">Apagadas</option>
 
 
-                    </select>
-                    <button id="WhichVMButton">Mostrar</button>
-                    <br /><br />
-                <table border="1px" >
+
+                </select>
+                <button id="WhichVMButton">Mostrar</button>
+                <br /><br />
+                <table border="1px">
                     <thead style="border:2px solid black;">
                         <tr>
                             <th>ID de Instancia</th>
@@ -107,7 +118,7 @@
                             <th>Alquiler</th>
 
                         </tr>
-                        
+
                     </thead>
                     <tbody style="border:2px solid black;" id="tInstancesRented">
 
@@ -118,21 +129,8 @@
             <section id="catalog">
 
                 <h2>Catálogo de Máquinas virtuales</h2>
-                <br />
-                <input type="text" list="instancias" id="Ej8S2" placeholder="Tipo de instancia" />
-                <datalist id="instancias">
-                    <option value="I7.Medium">Almacenamiento Mediano</option>
-                    <option value="I7.Large">Almacenamiento grande</option>
-                    <option value="R7.small">Memoria pequeña</option>
-                    <option value="R7.Medium">Memoria mediana</option>
-                    <option value="R7.Large">Memoria grande</option>
-                    <option value="C7.Small">Cómputo pequeño</option>
-                    <option value="C7.Medium">Cómputo moderado</option>
-                    <option value="C7.Large">Cómputo grande</option>
 
 
-                </datalist>
-                <br />
                 <h3>Instancias especializadas en cómputo</h3>
                 <table style="border:2px solid black;">
                     <thead style="border:2px solid black;">
