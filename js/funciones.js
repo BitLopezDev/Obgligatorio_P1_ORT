@@ -237,7 +237,7 @@ function loadCatalog() {
   <td>r7.small</td>
   <td>U$S 35</td>
   <td>U$S 4</td>
-  <td>${system.vms[2].stock}</td>
+  <td>${system.vms[3].stock}</td>
   <td><button onclick="instanceRentF('r7.small');">Alquilar una instancia</button></td>
 </tr>
   `;
