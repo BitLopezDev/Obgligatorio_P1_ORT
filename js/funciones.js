@@ -17,9 +17,10 @@ function inicio() {
   get("#radioDisabled").addEventListener("click", loadUserTable);
   get("#logOutbtn").addEventListener("click", logOut);
   loadCatalog();
+  
   get("#WhichVMButton").addEventListener("click", loadRented);
   //TODO: Remove following line
-  // hideLogin('admin');
+  //hideLogin('admin');
   
 }
 
@@ -172,9 +173,14 @@ function loadUserTable() {
   }
 }
 function instanceRentF(instance) {
+  
   system.rentVMfromSystem(instance, system.userLoggedIn);
+  
 }
+
+
 function loadCatalog() {
+  loadCatalogAdmin();
   let catalogTbodyCompute = get("#catalogTbodyCompute");
   let catalogTbodyMemory = get("#catalogTbodyMemory");
   let catalogTbodyAStorage = get("#catalogTbodyAStorage");
@@ -241,6 +247,176 @@ function loadCatalog() {
                             <td>U$S 3,50</td>
                             <td>${system.vms[6].stock}</td>
                             <td><button onclick="instanceRentF('i7.medium');">Alquilar una instancia</button></td>
+                        </tr>
+  `;
+  
+}
+
+function changeStock(instance, unit = 1){
+  switch(instance){
+    case "c7.large":
+      system.vms[2].modifyStockByUnit(unit);
+      break;
+      case "c7.medium":
+        
+      break;
+      case "c7.small":
+        
+      break;
+      case "r7.large":
+       
+      break;
+      case "r7.medium":
+       
+
+      break;
+      case "r7.small":
+        
+      break;
+      case "i7.large":
+        
+      break;
+      case "i7.medium":
+       
+      break;
+
+   }
+
+}
+
+function loadCatalogAdmin() {
+  let catalogTbodyCompute = get("#catalogTbodyComputeAdmin");
+  let catalogTbodyMemory = get("#catalogTbodyMemoryAdmin");
+  let catalogTbodyAStorage = get("#catalogTbodyAStorageAdmin");
+  /**
+   * [how many are rented : number , money made from renting this type]
+   */
+  let c7large =[0,0];
+  let c7medium =[0,0];
+  let c7small =[0,0];
+  let r7large =[0,0];
+  let r7medium =[0,0];
+  let r7small =[0,0];
+  let i7large =[0,0];
+  let i7medium =[0,0];
+ 
+   for (let index = 0; index < system.rents.length; index++) {
+   
+   switch(system.rents[index].VMType.type){
+    case "c7.large":
+      c7large[0]+=1;
+      c7large[1]+=50;
+      break;
+      case "c7.medium":
+        c7medium[0]+=1;
+      c7medium[1]+=30;
+      break;
+      case "c7.small":
+        c7small[0]+=1;
+      c7small[1]+=20;
+      break;
+      case "r7.large":
+        r7large[0]+=1;
+      r7large[1]+=60;
+      break;
+      case "r7.medium":
+        r7medium[0]+=1;
+      r7medium[1]+=50;
+
+      break;
+      case "r7.small":
+        r7small[0]+=1;
+      r7small[1]+=35;
+      break;
+      case "i7.large":
+        i7large[0]+=1;
+      i7large[1]+=50;
+      break;
+      case "i7.medium":
+        i7medium[0]+=1;
+      i7medium[1]+=30;
+      break;
+
+   }
+   
+  // console.log(c7large[0]);
+    
+   }
+  catalogTbodyCompute.innerHTML = `
+  <tr>
+  <td>c7.large</td>
+  <td>${c7large[0]}</td>
+  <td>${c7large[1]}</td>
+  <td>${system.vms[2].stock}</td>
+  <td><button onclick="changeStock('c7.large');">Aumentar Stock en una unidad</button></td>
+  <td><button onclick="changeStock('c7.large', -1);">Disminuir Stock en una unidad</button></td>
+
+</tr>
+<tr>
+  <td>c7.medium</td>
+  <td>${c7medium[0]}</td>
+  <td>${c7medium[1]}</td>
+  <td>${system.vms[1].stock}</td>
+  <td><button onclick="changeStock('c7.medium', 1);">Aumentar Stock en una unidad</button></td>
+  <td><button onclick="changeStock('c7.medium', -1);">Disminuir Stock en una unidad</button></td>
+
+</tr>
+<tr>
+  <td>c7.small</td>
+  < <td>${c7small[0]}</td>
+  <td>${c7small[1]}</td>
+  <td>${system.vms[0].stock}</td>
+  <td><button onclick="changeStock('c7.small', 1);">Aumentar Stock en una unidad</button></td>
+  <td><button onclick="changeStock('c7.small', -1);">Disminuir Stock en una unidad</button></td>
+
+</tr>
+  `;
+  catalogTbodyMemory.innerHTML = `
+  <tr>
+  <td>r7.large</td>
+  <td>${r7large[0]}</td>
+  <td>${r7large[1]}</td>
+  <td>${system.vms[5].stock}</td>
+  <td><button onclick="changeStock('r7.large', 1);">Aumentar Stock en una unidad</button></td>
+  <td><button onclick="changeStock('r7.large', -1);">Disminuir Stock en una unidad</button></td>
+
+</tr>
+<tr>
+  <td>r7.medium</td>
+  <td>${r7medium[0]}</td>
+  <td>${r7medium[1]}</td>
+  <td>${system.vms[4].stock}</td>
+  <td><button onclick="changeStock('r7.medium', 1);">Aumentar Stock en una unidad</button></td>
+  <td><button onclick="changeStock('r7.medium', -1);">Disminuir Stock en una unidad</button></td>
+
+</tr>
+<tr>
+  <td>r7.small</td>
+  <td>U$S 35</td>
+  <td>U$S 4</td>
+  <td>${system.vms[2].stock}</td>
+  <td><button onclick="changeStock('r7.small', 1);">Aumentar Stock en una unidad</button></td>
+  <td><button onclick="changeStock('r7.small', -1);">Disminuir Stock en una unidad</button></td>
+
+</tr>
+  `;
+
+  catalogTbodyAStorage.innerHTML = `
+  <tr>
+                            <td>i7.large</td>
+                            <td>U$S 50</td>
+                            <td>U$S 6,50</td>
+                            <td>${system.vms[7].stock}</td>
+                            <td><button onclick="changeStock('i7.large', 1);">Aumentar Stock en una unidad</button></td>
+                            <td><button onclick="changeStock('i7.large', -1);">Disminuir Stock en una unidad</button></td>
+                        </tr>
+                        <tr>
+                            <td>i7.medium</td>
+                            <td>U$S 30</td>
+                            <td>U$S 3,50</td>
+                            <td>${system.vms[6].stock}</td>
+                            <td><button onclick="changeStock('i7.medium', 1);">Aumentar Stock en una unidad</button></td>
+                            <td><button onclick="changeStock('i7.medium', -1);">Disminuir Stock en una unidad</button></td>
                         </tr>
   `;
 }

@@ -4,8 +4,8 @@ class System {
     this.adminList = [];
     this.userLoggedIn = null;
     this.vms = [];
-    this.activity =[];
-    this.rents =[];
+    this.activity = [];
+    this.rents = [];
 
     this.addUser(
       "John",
@@ -41,7 +41,7 @@ this.userList[0].enableUser();
         new Admin([adminToBe[i], "ort"], [adminToBe[i], "123456789"])
       );
     }
-     this.vmsToBe = [
+    this.vmsToBe = [
       "c7.small",
       "c7.medium",
       "c7.large",
@@ -130,12 +130,9 @@ this.userList[0].enableUser();
     isBlocked = false
   ) {
     if (!this.userExists(userName)) {
-      
       this.userList.push(
         new User(name, lastName, userName, password, creditCard, cvc, false)
       );
-
-      
     } else {
       alert("Usuario ya registrado.");
     }
@@ -146,19 +143,27 @@ this.userList[0].enableUser();
     this.userList.push(
       new User(name, lastName, userName, password, creditCard, cvc)
     );
-    this.logActivity(`Se agrega un Admin al sistema`, `SYSTEM`, `Se agrego: ${userName}`,);
+    this.logActivity(
+      `Se agrega un Admin al sistema`,
+      `SYSTEM`,
+      `Se agrego: ${userName}`
+    );
   }
-   /**
-   * 
-   * @param {string} activity 
-   * @param {string} users 
-   * @param {string} details 
-   * @param  {...String[]} others 
+  /**
+   *
+   * @param {string} activity
+   * @param {string} users
+   * @param {string} details
+   * @param  {...String[]} others
    */
-   logActivity(activity, users, details, ...others){
-    this.activity.push([activity, users, details, JSON.stringify(others) || 'No hay extras para este evento' ]);
+  logActivity(activity, users, details, ...others) {
+    this.activity.push([
+      activity,
+      users,
+      details,
+      JSON.stringify(others) || "No hay extras para este evento",
+    ]);
     writeAct();
-
   }
 
   findUserByCredentials(username, password) {
@@ -241,50 +246,48 @@ this.userList[0].enableUser();
     return list;
   }
 
-  rentVMfromSystem(type, user = this.userLoggedIn){
-    let specialization= '';
-    if(type.charAt(0) === 'c') {
-      specialization ='Cómputo';
-    } else if(type.charAt(0) === 'r') {
-      specialization ='Memoria';
-    } else if(type.charAt(0) === 'i') {
-      specialization ='Almacenamiento';
+  rentVMfromSystem(type, user = this.userLoggedIn) {
+    let specialization = "";
+    if (type.charAt(0) === "c") {
+      specialization = "Cómputo";
+    } else if (type.charAt(0) === "r") {
+      specialization = "Memoria";
+    } else if (type.charAt(0) === "i") {
+      specialization = "Almacenamiento";
     }
-    let rentPrice =0;
-    let turnOnPrice =0;
+    let rentPrice = 0;
+    let turnOnPrice = 0;
     let stock = 0;
     let VMType = null;
     for (let index = 0; index < this.vmsToBe.length; index++) {
-      if(type === this.vmsToBe[index]){
+      if (type === this.vmsToBe[index]) {
         rentPrice = this.vmPrices[index][0];
         turnOnPrice = this.vmPrices[index][1];
         stock = this.vms[index].stock;
-        VMType =this.vms[index];
+        VMType = this.vms[index];
       }
-      
     }
-if((VMType.stock-1)>=0){
-  let beenRented = new Rent(VMType, user)
-  // beenRented.rentVM();
-  this.vms.push(
-    beenRented
-    
-  )
-}
-    
-
+    if (VMType.stock - 1 >= 0) {
+      let beenRented = new Rent(VMType, user);
+      // beenRented.rentVM();
+      this.vms.push(beenRented);
+    }
   }
   /**
-   * 
-   * @param {string} activity 
-   * @param {string} users 
-   * @param {string} details 
-   * @param  {...String[]} others 
+   *
+   * @param {string} activity
+   * @param {string} users
+   * @param {string} details
+   * @param  {...String[]} others
    */
-  logActivity(activity, users, details, ...others){
-    this.activity.push([activity, users, details, JSON.stringify(others) || 'No hay extras para este evento' ]);
+  logActivity(activity, users, details, ...others) {
+    this.activity.push([
+      activity,
+      users,
+      details,
+      JSON.stringify(others) || "No hay extras para este evento",
+    ]);
     writeAct();
-
   }
   /**
    * @returns string (hardcoded)
@@ -319,29 +322,45 @@ class User {
 
   blockUser() {
     this.isBlocked = true;
-    system.logActivity(`Se bloqueó usuario`, `${this.userName}`, `Bloqueado por: ${system.userLoggedIn.userName}`,[JSON.stringify(system.userLoggedIn)]);
+    system.logActivity(
+      `Se bloqueó usuario`,
+      `${this.userID}`,
+      `Bloqueado por: ${system.userLoggedIn.userName}`,
+      [JSON.stringify(system.userLoggedIn)]
+    );
   }
 
   unBlockUser() {
     this.isBlocked = false;
-    system.logActivity(`Se Habilitó un usuario`, `${this.userName}`, `Habilitado por: ${system.userLoggedIn.userName}`,[JSON.stringify(system.userLoggedIn)]);
-
+    system.logActivity(
+      `Se Habilitó un usuario`,
+      `${this.userID}`,
+      `Habilitado por: ${system.userLoggedIn.userName}`,
+      [JSON.stringify(system.userLoggedIn)]
+    );
   }
 
   enableUser() {
     this.isEnabled = true;
-    system.logActivity(`Se Deshabilitó un usuario`, `${this.userName}`, `Deshabilitado por: ${system.userLoggedIn.userName}`,[JSON.stringify(system.userLoggedIn)]);
-
+    system.logActivity(
+      `Se Deshabilitó un usuario`,
+      `${this.userName}`,
+      `Deshabilitado por: ${system.userLoggedIn.userName}`,
+      [JSON.stringify(system.userLoggedIn)]
+    );
   }
   disableUser() {
     this.isEnabled = false;
-    system.logActivity(`Se Deshabilitó un usuario`, `${this.userName}`, `Deshabilitado por: ${system.userLoggedIn.userName}`,[JSON.stringify(system.userLoggedIn)]);
-
+    system.logActivity(
+      `Se Deshabilitó un usuario`,
+      `${this.userName}`,
+      `Deshabilitado por: ${system.userLoggedIn.userName}`,
+      [JSON.stringify(system.userLoggedIn)]
+    );
   }
 
   isCredentialCorrect(username, password) {
     return this.userName === username && this.password === password;
-    
   }
 
   isUserEnabled() {
@@ -365,8 +384,12 @@ class Admin {
   enableUser(whichUser) {
     system.enableUser(whichUser, this.adminID);
 
-    system.logActivity(`Se ordena habilitar un usuario`, `${whichUser}`, `No hay detalles`, [this.adminID]);
-    
+    system.logActivity(
+      `Se ordena habilitar un usuario`,
+      `${whichUser}`,
+      `No hay detalles`,
+      [this.adminID]
+    );
   }
   isUserEnabled() {
     return this.isEnabled;
@@ -384,43 +407,62 @@ class VM {
     this.stock = stock;
     this.rented = 0;
     this.isStillRented = false;
-    
   }
 
-  modifyStock(newStock) {
-    if (this.rented > newStock) {
-      system.logActivity(`Se intentó cambiar el stock de ${this.type}`, `SYSTEM`, `Se retornó: false;`,);
+  // modifyStockbyNew(newStock) {
+  //   if (newStock < 0) {
+  //     system.logActivity(
+  //       `Se intentó cambiar el stock de ${this.type}`,
+  //       `SYSTEM`,
+  //       `Se retornó: false;`
+  //     );
+  //     return false;
+  //   }
+  //   this.stock = newStock;
+  //   system.logActivity(
+  //     `Se cambió el stock de ${this.type}`,
+  //     `SYSTEM`,
+  //     `Nuevo Stock: ${this.stock}`
+  //   );
+  //   loadCatalog();
+  // }
 
+  modifyStockByUnit(unit) {
+    if (unit === -1 && this.stock - 1 < this.rented) {
+      // system.logActivity(
+      //   `Se intentó cambiar el stock de ${this.type}`,
+      //   `SYSTEM`,
+      //   `Se retornó: false;`
+      // );
+      loadCatalog();
+     
       return false;
     }
-    this.stock = newStock;
-    system.logActivity(`Se cambió el stock de ${this.type}`, `SYSTEM`, `Nuevo Stock: ${newStock}`,);
-
-
-    loadCatalog();
     
-
+    this.stock += unit;
+    loadCatalog();
   }
 
-  rentVM(user= system.userLoggedIn){
-
-
+  rentVM(user = system.userLoggedIn) {
     this.isStillRented = true;
     this.rented++;
     this.stock--;
     system.logActivity(`Se renta VM`, `${user.userName}`, `${this.type}`);
     loadCatalog();
-    loadRented();
 
+    loadRented();
   }
-  endRent(){
+  endRent() {
     this.isStillRented = false;
     this.rented--;
     this.stock++;
-    system.logActivity(`Se finalizo una renta:`, `${system.userLoggedIn.userName}`, `${this.type}`,);
+    system.logActivity(
+      `Se finalizo una renta:`,
+      `${system.userLoggedIn.userName}`,
+      `${this.type}`
+    );
     loadCatalog();
-    
-  };
+  }
 }
 
 //TODO: clases empiezan con mayus
@@ -432,24 +474,26 @@ class Rent {
     this.user = user;
     this.state = "ON";
     this.turnedOnTimes = 0;
-    if((this.VMType.stock -1)>=0) {
+    if (this.VMType.stock - 1 >= 0) {
       this.VMType.rentVM();
-    
 
       system.rents.push(this);
       loadRented();
+      loadCatalogAdmin();
     } else {
       // TODO: Change alert for something else;
       alert("Error");
     }
-  
   }
 
   turnOffVM() {
-    if ( this.state !== "OFF") {
+    if (this.state !== "OFF") {
       this.state = "OFF";
-system.logActivity(`Se apagó una instancia de VM: ${rentID}`, `${system.userLoggedIn.userName}`, `System Event`,);
-
+      system.logActivity(
+        `Se apagó una instancia de VM: ${rentID}`,
+        `${system.userLoggedIn.userName}`,
+        `System Event`
+      );
     }
     loadRented();
   }
@@ -458,37 +502,37 @@ system.logActivity(`Se apagó una instancia de VM: ${rentID}`, `${system.userLog
     if (this.state !== "ON") {
       this.state = "ON";
       this.turnedOnTimes++;
-system.logActivity(`Se prendió una instancia de VM: ${this.rentID}`, `${system.userLoggedIn.username}`, ``,);
-
+      system.logActivity(
+        `Se prendió una instancia de VM: ${this.rentID}`,
+        `${system.userLoggedIn.username}`,
+        ``
+      );
     }
     loadRented();
   }
-  rentsByCurrentUser(){
-    let allRents =[];
+  rentsByCurrentUser() {
+    let allRents = [];
     for (let index = 0; index < system.rents.length; index++) {
-     if(this.user == system.rents[index].user){
-      allRents.push(this);
-     }
-      
+      if (this.user == system.rents[index].user) {
+        allRents.push(this);
+      }
     }
     return allRents;
   }
-  endRent(){
+  endRent() {
     this.VMType.endRent();
     loadRented();
     //Probably does not work
-system.logActivity(`Se ordena finalizar renta`, `SYSTEM`, ``,);
-    
+    system.logActivity(`Se ordena finalizar renta`, `SYSTEM`, ``);
   }
 
-  getRentPrice(){
+  getRentPrice() {
     return this.VMType.rentPrice;
   }
-  getOnPrice(){
+  getOnPrice() {
     return this.VMType.turnOnPrice * this.turnedOnTimes;
   }
-  getTotalPrice(){
+  getTotalPrice() {
     return this.getRentPrice() + this.getOnPrice();
   }
 }
-
