@@ -3,7 +3,7 @@ window.addEventListener("error", handleError);
 let system = new System();
 
 /**
- * @returns void
+ * @returns undefined
  */
 function inicio() {
   get("#loginBtn").addEventListener("click", loginUser);
@@ -19,10 +19,12 @@ function inicio() {
   loadCatalog();
   updateTotalPrice()
   get("#WhichVMButton").addEventListener("click", loadRented);
-  //TODO: Remove following line
-  //hideLogin('admin');
+ 
 }
-
+/**
+ * 
+ * @returns undefined
+ */
 function registerUser() {
   let registerPswd = get("#registerPswd").value;
   let registerName = get("#registerName").value;
@@ -71,7 +73,10 @@ function registerUser() {
     alert("Las contraseñas no cumplen los requisitos");
   }
 }
-
+/**
+ * @returns undefined
+ * 
+ */
 function loginUser() {
   get("#tInstancesRented").innerHTML = "";
   let loginUserName = get("#loginUserName").value;
@@ -96,7 +101,9 @@ function loginUser() {
     // }
   }
 }
-
+/**
+ * @returns undefined
+ */
 function logOut() {
   hideElement("#seccionAdministrador");
   showElementBlock("#loginRegister");
@@ -111,7 +118,9 @@ function hideLogin(userType = "client") {
   showElementBlock("#contentApp");
 }
 
-//TODO: Find 'La cantidad de maquinas en uso las define el programador o las define el conjunto de usuarios que hayan iniciado sesión antes que elñ administador?'
+/**
+ * @returns undefined
+ */
 
 function loadUserTable() {
   let text = "";
@@ -174,6 +183,10 @@ function loadUserTable() {
 function instanceRentF(instance) {
   system.rentVMfromSystem(instance, system.userLoggedIn);
 }
+
+/**
+ * @returns undefined
+ */
 
 function loadCatalog() {
   loadCatalogAdmin();
@@ -247,6 +260,12 @@ function loadCatalog() {
   `;
 }
 
+/**
+ * 
+ * @param {string} instance 
+ * @param {integer} unit {-1; 1}
+ * @returns undefined
+ */
 function changeStock(instance, unit = 1) {
   switch (instance) {
     case "c7.large":
@@ -276,10 +295,16 @@ function changeStock(instance, unit = 1) {
       break;
   }
 }
+/**
+ * @returns undefined
+ */
 function updateTotalPrice() {
   let totalPrice = get("#totalPrice");
   totalPrice.innerHTML= `Ingresos totales: ${system.totalSum}$.`;
 }
+/**
+ * @returns undefined
+ */
 function loadCatalogAdmin() {
 
   let catalogTbodyCompute = get("#catalogTbodyComputeAdmin");
@@ -416,10 +441,9 @@ function loadCatalogAdmin() {
   `;
 }
 
-function turnOffF(rentInstance) {
-  rentInstance.turnOffVM();
-}
-
+/**
+ * @returns undefined
+ */
 function loadRented() {
   let toShow = system.rents;
   let which = get("#VMschoice").value;
@@ -491,6 +515,10 @@ function loadRented() {
     }
   }
 }
+
+/**
+ * @returns undefined
+ */
 function filterVMs() {}
 
 function dinBlock() {

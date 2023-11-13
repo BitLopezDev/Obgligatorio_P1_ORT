@@ -1,4 +1,7 @@
 class System {
+  /**
+   *
+   */
   constructor() {
     this.userList = [];
     this.adminList = [];
@@ -6,7 +9,7 @@ class System {
     this.vms = [];
     this.activity = [];
     this.rents = [];
-    this.totalSum= 0;
+    this.totalSum = 0;
 
     this.addUser(
       "John",
@@ -96,17 +99,17 @@ this.userList[0].enableUser();
   }
   /**
    *
-   * @param {number} userID
+   * @param {string} userName
    * @returns boolean;
    */
   userExists(userName) {
     for (let i = 0; i < this.adminList.length; i++) {
-      const user = this.adminList[i];
+      let user = this.adminList[i];
       if (user.userName === userName) {
         return true;
       }
       for (let i = 0; i < this.userList.length; i++) {
-        const user = this.userList[i];
+        let user = this.userList[i];
         if (user.userName === userName) {
           return true;
         }
@@ -116,20 +119,15 @@ this.userList[0].enableUser();
   }
   /**
    *
-   * @param {string[]} param0
-   * @param {string[]} param1
-   * @param {string[]} param2
-   * @param  {...string[]} param3
+   * @param {string} name
+   * @param {string} lastName
+   * @param {string} userName
+   * @param {string} password
+   * @param {string} creditCard
+   * @param {string} cvc
+   * @returns undefined
    */
-  addUser(
-    name,
-    lastName,
-    userName,
-    password,
-    creditCard = 0,
-    cvc = 0,
-    isBlocked = false
-  ) {
+  addUser(name, lastName, userName, password, creditCard = 0, cvc = 0) {
     if (!this.userExists(userName)) {
       this.userList.push(
         new User(name, lastName, userName, password, creditCard, cvc, false)
@@ -138,7 +136,13 @@ this.userList[0].enableUser();
       alert("Usuario ya registrado.");
     }
   }
-
+  /**
+   *
+   * @param {string} name
+   * @param {string} lastName
+   * @param {string} userName
+   * @param {string} password
+   */
   addAdmin(name, lastName, userName, password) {
     // Agrega el usuario a la lista de usuarios
     this.userList.push(
@@ -156,6 +160,7 @@ this.userList[0].enableUser();
    * @param {string} users
    * @param {string} details
    * @param  {...String[]} others
+   * @returns undefined
    */
   logActivity(activity, users, details, ...others) {
     this.activity.push([
@@ -166,7 +171,12 @@ this.userList[0].enableUser();
     ]);
     writeAct();
   }
-
+  /**
+   *
+   * @param {string} username
+   * @param {string} password
+   * @returns object || false
+   */
   findUserByCredentials(username, password) {
     for (let i = 0; i < this.userList.length; i++) {
       const user = this.userList[i];
@@ -182,6 +192,12 @@ this.userList[0].enableUser();
     }
     return false;
   }
+
+  /**
+   *
+   * @param {string} username
+   * @returns object || false
+   */
   findUserByUserName(username) {
     for (let i = 0; i < this.userList.length; i++) {
       const user = this.userList[i];
@@ -197,6 +213,11 @@ this.userList[0].enableUser();
     }
     return false;
   }
+  /**
+   *
+   * @param {integer} givenID
+   * @returns object || false
+   */
   findUserByID(givenID) {
     for (let i = 0; i < this.userList.length; i++) {
       const user = this.userList[i];
@@ -212,6 +233,11 @@ this.userList[0].enableUser();
     }
     return false;
   }
+  /**
+   *
+   * @param {object} currentUser
+   * @returns boolean
+   */
 
   isUserEnabled(currentUser) {
     if (currentUser.isEnabled) {
@@ -219,6 +245,10 @@ this.userList[0].enableUser();
     }
     return false;
   }
+  /**
+   *
+   * @returns object[]
+   */
   getEnabledUsers() {
     let enabledList = [];
     for (let i = 0; i < this.userList.length; i++) {
@@ -229,6 +259,10 @@ this.userList[0].enableUser();
     }
     return enabledList;
   }
+  /**
+   *
+   * @returns object[]
+   */
   getDisabledUsers() {
     let disabledList = [];
     for (let i = 0; i < this.userList.length; i++) {
@@ -239,6 +273,10 @@ this.userList[0].enableUser();
     }
     return disabledList;
   }
+  /**
+   *
+   * @returns object[]
+   */
   getUsers() {
     let list = [];
     for (let i = 0; i < this.userList.length; i++) {
@@ -246,7 +284,11 @@ this.userList[0].enableUser();
     }
     return list;
   }
-
+  /**
+   *
+   * @param {string} type
+   * @param {object} user
+   */
   rentVMfromSystem(type, user = this.userLoggedIn) {
     let specialization = "";
     if (type.charAt(0) === "c") {
@@ -320,6 +362,9 @@ class User {
     this.isAdmin = false;
     this.isBlocked = isBlocked;
   }
+  /**
+   * @returns undefined
+   */
 
   blockUser() {
     this.isBlocked = true;
@@ -330,7 +375,9 @@ class User {
       [JSON.stringify(system.userLoggedIn)]
     );
   }
-
+  /**
+   * @returns undefined
+   */
   unBlockUser() {
     this.isBlocked = false;
     system.logActivity(
@@ -340,7 +387,9 @@ class User {
       [JSON.stringify(system.userLoggedIn)]
     );
   }
-
+  /**
+   * @returns undefined
+   */
   enableUser() {
     this.isEnabled = true;
     system.logActivity(
@@ -350,6 +399,9 @@ class User {
       [JSON.stringify(system.userLoggedIn)]
     );
   }
+  /**
+   * @returns undefined
+   */
   disableUser() {
     this.isEnabled = false;
     system.logActivity(
@@ -359,10 +411,19 @@ class User {
       [JSON.stringify(system.userLoggedIn)]
     );
   }
-
+  /**
+   *
+   * @param {string} username
+   * @param {string} password
+   * @returns boolean
+   */
   isCredentialCorrect(username, password) {
     return this.userName === username && this.password === password;
   }
+  /**
+   *
+   * @returns boolean
+   */
 
   isUserEnabled() {
     return this.isEnabled;
@@ -381,17 +442,10 @@ class Admin {
     this.adminID = ++adminID;
     this.isAdmin = true;
   }
-
-  enableUser(whichUser) {
-    system.enableUser(whichUser, this.adminID);
-
-    system.logActivity(
-      `Se ordena habilitar un usuario`,
-      `${whichUser}`,
-      `No hay detalles`,
-      [this.adminID]
-    );
-  }
+  /**
+   *
+   * @returns boolean
+   */
   isUserEnabled() {
     return this.isEnabled;
   }
@@ -410,33 +464,21 @@ class VM {
     this.isStillRented = false;
   }
 
-  // modifyStockbyNew(newStock) {
-  //   if (newStock < 0) {
-  //     system.logActivity(
-  //       `Se intentó cambiar el stock de ${this.type}`,
-  //       `SYSTEM`,
-  //       `Se retornó: false;`
-  //     );
-  //     return false;
-  //   }
-  //   this.stock = newStock;
-  //   system.logActivity(
-  //     `Se cambió el stock de ${this.type}`,
-  //     `SYSTEM`,
-  //     `Nuevo Stock: ${this.stock}`
-  //   );
-  //   loadCatalog();
-  // }
+  /**
+   *
+   * @param {integer} unit {-1; 1}
+   * @returns false || undefined
+   */
 
   modifyStockByUnit(unit) {
     if (unit === -1 && this.stock - 1 < this.rented) {
-       system.logActivity(
-         `Se intentó cambiar el stock de ${this.type}`,
-         `SYSTEM ${system.userLoggedIn.userName}`,
-         `Se retornó: false;`
-       );
+      system.logActivity(
+        `Se intentó cambiar el stock de ${this.type}`,
+        `SYSTEM ${system.userLoggedIn.userName}`,
+        `Se retornó: false;`
+      );
       loadCatalog();
-     
+
       return false;
     }
     this.stock += unit;
@@ -447,9 +489,12 @@ class VM {
       `Nuevo stock: ${this.stock}`,
       []
     );
-    
   }
-
+  /**
+   *
+   * @param {object} user
+   * @returns undefined
+   */
   rentVM(user = system.userLoggedIn) {
     this.isStillRented = true;
     this.rented++;
@@ -487,14 +532,16 @@ class Rent {
       system.rents.push(this);
       loadRented();
       loadCatalogAdmin();
-      system.totalSum+=this.getRentPrice();
-      updateTotalPrice()
+      system.totalSum += this.getRentPrice();
+      updateTotalPrice();
     } else {
       // TODO: Change alert for something else;
       alert("Error");
     }
   }
-
+  /**
+   * @returns undefined
+   */
   turnOffVM() {
     if (this.state !== "OFF") {
       this.state = "OFF";
@@ -506,13 +553,15 @@ class Rent {
     }
     loadRented();
   }
-
+  /**
+   * @returns undefined
+   */
   turnOnVM() {
     if (this.state !== "ON") {
       this.state = "ON";
       this.turnedOnTimes++;
-      system.totalSum+= this.getOnPrice();
-      updateTotalPrice()
+      system.totalSum += this.getOnPrice();
+      updateTotalPrice();
       system.logActivity(
         `Se prendió una instancia de VM: ${this.rentID}`,
         `${system.userLoggedIn.username}`,
@@ -521,6 +570,10 @@ class Rent {
     }
     loadRented();
   }
+  /**
+   *
+   * @returns object[]
+   */
   rentsByCurrentUser() {
     let allRents = [];
     for (let index = 0; index < system.rents.length; index++) {
@@ -530,19 +583,38 @@ class Rent {
     }
     return allRents;
   }
+  /**
+   * @returns undefined
+   */
   endRent() {
     this.VMType.endRent();
     loadRented();
     //Probably does not work
-    system.logActivity(`Se ordena finalizar renta`, `SYSTEM ${system.userLoggedIn.userName}`, ``);
+    system.logActivity(
+      `Se ordena finalizar renta`,
+      `SYSTEM ${system.userLoggedIn.userName}`,
+      ``
+    );
   }
+  /**
+   *
+   * @returns float
+   */
 
   getRentPrice() {
     return this.VMType.rentPrice;
   }
+  /**
+   *
+   * @returns float
+   */
   getOnPrice() {
     return this.VMType.turnOnPrice * this.turnedOnTimes;
   }
+  /**
+   *
+   * @returns finalizoloat
+   */
   getTotalPrice() {
     return this.getRentPrice() + this.getOnPrice();
   }
