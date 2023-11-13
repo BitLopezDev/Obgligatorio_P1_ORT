@@ -17,7 +17,7 @@ function inicio() {
   get("#radioDisabled").addEventListener("click", loadUserTable);
   get("#logOutbtn").addEventListener("click", logOut);
   loadCatalog();
-
+  updateTotalPrice()
   get("#WhichVMButton").addEventListener("click", loadRented);
   //TODO: Remove following line
   //hideLogin('admin');
@@ -276,8 +276,12 @@ function changeStock(instance, unit = 1) {
       break;
   }
 }
-
+function updateTotalPrice() {
+  let totalPrice = get("#totalPrice");
+  totalPrice.innerHTML= `Ingresos totales: ${system.totalSum}$.`;
+}
 function loadCatalogAdmin() {
+
   let catalogTbodyCompute = get("#catalogTbodyComputeAdmin");
   let catalogTbodyMemory = get("#catalogTbodyMemoryAdmin");
   let catalogTbodyAStorage = get("#catalogTbodyAStorageAdmin");
@@ -332,6 +336,7 @@ function loadCatalogAdmin() {
 
     // console.log(c7large[0]);
   }
+  
   catalogTbodyCompute.innerHTML = `
   <tr>
   <td>c7.large</td>

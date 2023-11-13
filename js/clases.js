@@ -6,6 +6,7 @@ class System {
     this.vms = [];
     this.activity = [];
     this.rents = [];
+    this.totalSum= 0;
 
     this.addUser(
       "John",
@@ -145,7 +146,7 @@ this.userList[0].enableUser();
     );
     this.logActivity(
       `Se agrega un Admin al sistema`,
-      `SYSTEM`,
+      `SYSTEM ${system.userLoggedIn.userName}`,
       `Se agrego: ${userName}`
     );
   }
@@ -429,18 +430,24 @@ class VM {
 
   modifyStockByUnit(unit) {
     if (unit === -1 && this.stock - 1 < this.rented) {
-      // system.logActivity(
-      //   `Se intentó cambiar el stock de ${this.type}`,
-      //   `SYSTEM`,
-      //   `Se retornó: false;`
-      // );
+       system.logActivity(
+         `Se intentó cambiar el stock de ${this.type}`,
+         `SYSTEM ${system.userLoggedIn.userName}`,
+         `Se retornó: false;`
+       );
       loadCatalog();
      
       return false;
     }
-    
     this.stock += unit;
     loadCatalog();
+    system.logActivity(
+      `Se  cambió el stock de ${this.type}`,
+      `SYSTEM ${system.userLoggedIn.userName}`,
+      `Nuevo stock: ${this.stock}`,
+      []
+    );
+    
   }
 
   rentVM(user = system.userLoggedIn) {
@@ -480,6 +487,8 @@ class Rent {
       system.rents.push(this);
       loadRented();
       loadCatalogAdmin();
+      system.totalSum+=this.getRentPrice();
+      updateTotalPrice()
     } else {
       // TODO: Change alert for something else;
       alert("Error");
@@ -502,6 +511,8 @@ class Rent {
     if (this.state !== "ON") {
       this.state = "ON";
       this.turnedOnTimes++;
+      system.totalSum+= this.getOnPrice();
+      updateTotalPrice()
       system.logActivity(
         `Se prendió una instancia de VM: ${this.rentID}`,
         `${system.userLoggedIn.username}`,
@@ -523,7 +534,7 @@ class Rent {
     this.VMType.endRent();
     loadRented();
     //Probably does not work
-    system.logActivity(`Se ordena finalizar renta`, `SYSTEM`, ``);
+    system.logActivity(`Se ordena finalizar renta`, `SYSTEM ${system.userLoggedIn.userName}`, ``);
   }
 
   getRentPrice() {
