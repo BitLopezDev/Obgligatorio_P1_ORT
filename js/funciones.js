@@ -17,11 +17,10 @@ function inicio() {
   get("#radioDisabled").addEventListener("click", loadUserTable);
   get("#logOutbtn").addEventListener("click", logOut);
   loadCatalog();
-  
+
   get("#WhichVMButton").addEventListener("click", loadRented);
   //TODO: Remove following line
   //hideLogin('admin');
-  
 }
 
 function registerUser() {
@@ -173,11 +172,8 @@ function loadUserTable() {
   }
 }
 function instanceRentF(instance) {
-  
   system.rentVMfromSystem(instance, system.userLoggedIn);
-  
 }
-
 
 function loadCatalog() {
   loadCatalogAdmin();
@@ -249,39 +245,36 @@ function loadCatalog() {
                             <td><button onclick="instanceRentF('i7.medium');">Alquilar una instancia</button></td>
                         </tr>
   `;
-  
 }
 
-function changeStock(instance, unit = 1){
-  switch(instance){
+function changeStock(instance, unit = 1) {
+  switch (instance) {
     case "c7.large":
       system.vms[2].modifyStockByUnit(unit);
       break;
-      case "c7.medium":
-        
+    case "c7.medium":
+      system.vms[1].modifyStockByUnit(unit);
       break;
-      case "c7.small":
-        
+    case "c7.small":
+      system.vms[0].modifyStockByUnit(unit);
       break;
-      case "r7.large":
-       
+    case "r7.large":
+      system.vms[5].modifyStockByUnit(unit);
       break;
-      case "r7.medium":
-       
+    case "r7.medium":
+      system.vms[4].modifyStockByUnit(unit);
 
       break;
-      case "r7.small":
-        
+    case "r7.small":
+      system.vms[3].modifyStockByUnit(unit);
       break;
-      case "i7.large":
-        
+    case "i7.large":
+      system.vms[7].modifyStockByUnit(unit);
       break;
-      case "i7.medium":
-       
+    case "i7.medium":
+      system.vms[6].modifyStockByUnit(unit);
       break;
-
-   }
-
+  }
 }
 
 function loadCatalogAdmin() {
@@ -291,57 +284,54 @@ function loadCatalogAdmin() {
   /**
    * [how many are rented : number , money made from renting this type]
    */
-  let c7large =[0,0];
-  let c7medium =[0,0];
-  let c7small =[0,0];
-  let r7large =[0,0];
-  let r7medium =[0,0];
-  let r7small =[0,0];
-  let i7large =[0,0];
-  let i7medium =[0,0];
- 
-   for (let index = 0; index < system.rents.length; index++) {
-   
-   switch(system.rents[index].VMType.type){
-    case "c7.large":
-      c7large[0]+=1;
-      c7large[1]+=50;
-      break;
+  let c7large = [0, 0];
+  let c7medium = [0, 0];
+  let c7small = [0, 0];
+  let r7large = [0, 0];
+  let r7medium = [0, 0];
+  let r7small = [0, 0];
+  let i7large = [0, 0];
+  let i7medium = [0, 0];
+
+  for (let index = 0; index < system.rents.length; index++) {
+    switch (system.rents[index].VMType.type) {
+      case "c7.large":
+        c7large[0] += 1;
+        c7large[1] += 50;
+        break;
       case "c7.medium":
-        c7medium[0]+=1;
-      c7medium[1]+=30;
-      break;
+        c7medium[0] += 1;
+        c7medium[1] += 30;
+        break;
       case "c7.small":
-        c7small[0]+=1;
-      c7small[1]+=20;
-      break;
+        c7small[0] += 1;
+        c7small[1] += 20;
+        break;
       case "r7.large":
-        r7large[0]+=1;
-      r7large[1]+=60;
-      break;
+        r7large[0] += 1;
+        r7large[1] += 60;
+        break;
       case "r7.medium":
-        r7medium[0]+=1;
-      r7medium[1]+=50;
+        r7medium[0] += 1;
+        r7medium[1] += 50;
 
-      break;
+        break;
       case "r7.small":
-        r7small[0]+=1;
-      r7small[1]+=35;
-      break;
+        r7small[0] += 1;
+        r7small[1] += 35;
+        break;
       case "i7.large":
-        i7large[0]+=1;
-      i7large[1]+=50;
-      break;
+        i7large[0] += 1;
+        i7large[1] += 50;
+        break;
       case "i7.medium":
-        i7medium[0]+=1;
-      i7medium[1]+=30;
-      break;
+        i7medium[0] += 1;
+        i7medium[1] += 30;
+        break;
+    }
 
-   }
-   
-  // console.log(c7large[0]);
-    
-   }
+    // console.log(c7large[0]);
+  }
   catalogTbodyCompute.innerHTML = `
   <tr>
   <td>c7.large</td>
@@ -394,7 +384,7 @@ function loadCatalogAdmin() {
   <td>r7.small</td>
   <td>U$S 35</td>
   <td>U$S 4</td>
-  <td>${system.vms[2].stock}</td>
+  <td>${system.vms[3].stock}</td>
   <td><button onclick="changeStock('r7.small', 1);">Aumentar Stock en una unidad</button></td>
   <td><button onclick="changeStock('r7.small', -1);">Disminuir Stock en una unidad</button></td>
 
@@ -426,24 +416,26 @@ function turnOffF(rentInstance) {
 }
 
 function loadRented() {
-  let toShow =system.rents;
+  let toShow = system.rents;
   let which = get("#VMschoice").value;
   let tInstancesRented = get("#tInstancesRented");
 
   let insert = "";
- let whichClass ='';
-  
+  let whichClass = "";
+
   for (let i = 0; i < toShow.length; i++) {
     if (
       toShow[i].user === system.userLoggedIn &&
       toShow[i].VMType.isStillRented
     ) {
       //console.log(system.rents[i]);
-      if((toShow[i].state=== "ON" && which==='off') || (toShow[i].state=== "OFF" && which==='on')) {
-
-             whichClass = 'isHidden'   ;              
+      if (
+        (toShow[i].state === "ON" && which === "off") ||
+        (toShow[i].state === "OFF" && which === "on")
+      ) {
+        whichClass = "isHidden";
       } else {
-        whichClass ='';
+        whichClass = "";
       }
       insert =
         insert +
@@ -520,11 +512,11 @@ function Dindisable() {
   loadUserTable();
 }
 
-function writeAct(){
+function writeAct() {
   let adminLog = get("#adminLog");
   let log = system.activity;
 
-  let insert=``;
+  let insert = ``;
 
   for (let index = 0; index < log.length; index++) {
     insert = insert += `
@@ -535,10 +527,8 @@ function writeAct(){
     <td><pre>${log[index][3]}</pre></td>
     </tr>
     `;
-    
   }
-  adminLog.innerHTML=insert;
-
+  adminLog.innerHTML = insert;
 }
 
 /////////////////////// DO NOT CODE BELLOW ///////////////////////// DO NOT CODE BELLOW ///////////
