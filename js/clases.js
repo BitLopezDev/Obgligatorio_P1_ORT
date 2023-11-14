@@ -1,8 +1,5 @@
 class System {
-  /**
-   *
-   */
-  constructor() {
+    constructor() {
     this.userList = [];
     this.adminList = [];
     this.userLoggedIn = null;
@@ -31,6 +28,48 @@ class System {
       "123",
       false
     );
+    this.adminList.push(
+      new Admin('ana', "ort", 'ana', "123456789"),
+      new Admin('pippo', "ort", 'pippo', "123456789"),
+      new Admin('santi', "ort", 'santi', "123456789"),
+      new Admin('mile', "ort", 'mile', "123456789"),
+      new Admin('nahuel', "ort", 'nahuel', "123456789")
+    );
+
+   
+
+    this.userList.push(
+      new User(`Filippo`, `Muro`, `F.Muro`, `Pippo.2005`, `4001919257537193`, `123`),
+      new User(`Juan`, `Suarez`, `J.Suarez`, `Juan.2004`, `4929635100120453`, `456`),
+      new User(`Guillermo`, `Vieira`, `G.Vieira`, `Guille.2003`, `5158456280779649`, `789`),
+      new User(`Matias`, `Portillo`, `M.Portillo`, `Mati.2002`, `5255624680044367`, `012`),
+      new User(`Santiago`, `Comesaña`, `S.Comesaña`, `Santi.2001`, `4213000402995901`, `345`)
+    )
+    this.vms.push(
+      new VM(`c7.small`, `computo`, 20, 2.5,15),
+      new VM(`c7.medium`, `computo`, 30, 3.5,15),
+      new VM(`c7.large`, `computo`, 50, 6,15),
+      new VM(`r7.small`, `memoria`, 35, 4,15),
+      new VM(`r7.medium`, `memoria`, 50, 6.5,15),
+      new VM(`r7.large`, `memoria`, 60, 7,15),
+      new VM(`i7.medium`, `almacenamiento`, 30, 3.5,15),
+      new VM(`i7.large`, `almacenamiento`, 50, 6.5,15),
+    )
+    
+    /* 
+    
+      new Rent(this.vms[0], this.userList[0]),
+      new Rent(this.vms[1], this.userList[0]),
+      new Rent(this.vms[2], this.userList[1]),
+      new Rent(this.vms[3], this.userList[1]),
+      new Rent(this.vms[4], this.userList[2]),
+      new Rent(this.vms[5], this.userList[3]),
+      new Rent(this.vms[6], this.userList[3]),
+      new Rent(this.vms[7], this.userList[4]),
+      new Rent(this.vms[0], this.userList[5]),
+      new Rent(this.vms[2], this.userList[5])
+    )*/
+  
 
     /*
 this.userList[0].enableUser();
@@ -38,13 +77,13 @@ this.userList[0].enableUser();
 
     // this.toBeApproved=[];
 
-    let adminToBe = ["ana", "pippo", "santi", "mile", "nahuel"];
+    // let adminToBe = ["ana", "pippo", "santi", "mile", "nahuel"];
 
-    for (let i = 0; i < 5; i++) {
-      this.adminList.push(
-        new Admin([adminToBe[i], "ort"], [adminToBe[i], "123456789"])
-      );
-    }
+    // for (let i = 0; i < 5; i++) {
+    //   this.adminList.push(
+    //     new Admin([adminToBe[i], "ort"], [adminToBe[i], "123456789"])
+    //   );
+    // }
     this.vmsToBe = [
       "c7.small",
       "c7.medium",
@@ -76,17 +115,17 @@ this.userList[0].enableUser();
       [50, 6.5],
     ];
 
-    for (let index = 0; index < this.vmsToBe.length; index++) {
-      this.vms.push(
-        new VM(
-          this.vmsToBe[index],
-          this.vmsTypes[index],
-          this.vmPrices[index][0],
-          this.vmPrices[index][1],
-          15
-        )
-      );
-    }
+    // for (let index = 0; index < this.vmsToBe.length; index++) {
+    //   this.vms.push(
+    //     new VM(
+    //       this.vmsToBe[index],
+    //       this.vmsTypes[index],
+    //       this.vmPrices[index][0],
+    //       this.vmPrices[index][1],
+    //       15
+    //     )
+    //   );
+    // }
   }
   /**
    * @param {number} userID
@@ -145,8 +184,8 @@ this.userList[0].enableUser();
    */
   addAdmin(name, lastName, userName, password) {
     // Agrega el usuario a la lista de usuarios
-    this.userList.push(
-      new User(name, lastName, userName, password, creditCard, cvc)
+    this.adminList.push(
+      new Admin(name, lastName, userName, password)
     );
     this.logActivity(
       `Se agrega un Admin al sistema`,
@@ -432,7 +471,7 @@ class User {
 
 let adminID = 0;
 class Admin {
-  constructor([name, lastName], [userName, password]) {
+  constructor(name, lastName, userName, password) {
     this.name = name;
     this.lastName = lastName;
     this.userName = userName;
@@ -452,7 +491,16 @@ class Admin {
 }
 
 let nextVMId = 1;
+
 class VM {
+  /**
+   * 
+   * @param {string} type 
+   * @param {string} specialization 
+   * @param {string} rentPrice 
+   * @param {string} turnOnPrice 
+   * @param {string} stock 
+   */
   constructor(type, specialization, rentPrice, turnOnPrice, stock) {
     this.type = type;
     this.specialization = specialization;
@@ -499,7 +547,7 @@ class VM {
     this.isStillRented = true;
     this.rented++;
     this.stock--;
-    system.logActivity(`Se renta VM`, `${user.userName}`, `${this.type}`);
+    system.logActivity(`Se renta VM`, `${user?.userName || 'SYSTEM'}`, `${this.type}`);
     loadCatalog();
 
     loadRented();
@@ -517,9 +565,13 @@ class VM {
   }
 }
 
-//TODO: clases empiezan con mayus
+
 let rentID = 1;
 class Rent {
+  /**
+   * @param {object : VM} VMType 
+   * @param {object} user 
+   */
   constructor(VMType, user) {
     this.VMType = VMType;
     this.rentID = rentID++;

@@ -20,7 +20,29 @@ function inicio() {
   updateTotalPrice()
   get("#WhichVMButton").addEventListener("click", loadRented);
  
+  //Preload VMS
+  
+  loadVMsStart();
 }
+/**
+ * @returns undefined
+ */
+function loadVMsStart(){
+  system.rents.push(
+    new Rent(system.vms[1], system.userList[0]),
+    new Rent(system.vms[0], system.userList[0]),
+    new Rent(system.vms[3], system.userList[0]),
+    new Rent(system.vms[4], system.userList[0]),
+    new Rent(system.vms[2], system.userList[0]),
+    new Rent(system.vms[3], system.userList[0]),
+    new Rent(system.vms[1], system.userList[0]),
+    new Rent(system.vms[5], system.userList[0]),
+    new Rent(system.vms[6], system.userList[0]),
+    new Rent(system.vms[3], system.userList[0]),
+
+  )
+}
+
 /**
  * 
  * @returns undefined
