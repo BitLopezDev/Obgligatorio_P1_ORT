@@ -8,27 +8,7 @@ class System {
     this.rents = [];
     this.totalSum = 0;
 
-    this.addUser(
-      "John",
-      "Doe",
-      "johndoe",
-      "123456",
-      "client",
-      "1234-1234-1234-1234",
-      "123",
-      false
-    );
-    this.addUser(
-      "Jane",
-      "Doe",
-      "janedoe",
-      "123456",
-      "client",
-      "1234-1234-1234-1234",
-      "123",
-      false
-    );
-    this.adminList.push(
+        this.adminList.push(
       new Admin('ana', "ort", 'ana', "123456789"),
       new Admin('pippo', "ort", 'pippo', "123456789"),
       new Admin('santi', "ort", 'santi', "123456789"),
@@ -44,7 +24,7 @@ class System {
       new User(`Guillermo`, `Vieira`, `G.Vieira`, `Guille.2003`, `5158456280779649`, `789`),
       new User(`Matias`, `Portillo`, `M.Portillo`, `Mati.2002`, `5255624680044367`, `012`),
       new User(`Santiago`, `Comesaña`, `S.Comesaña`, `Santi.2001`, `4213000402995901`, `345`)
-    )
+    );
     this.vms.push(
       new VM(`c7.small`, `computo`, 20, 2.5,15),
       new VM(`c7.medium`, `computo`, 30, 3.5,15),
@@ -54,36 +34,8 @@ class System {
       new VM(`r7.large`, `memoria`, 60, 7,15),
       new VM(`i7.medium`, `almacenamiento`, 30, 3.5,15),
       new VM(`i7.large`, `almacenamiento`, 50, 6.5,15),
-    )
+    );
     
-    /* 
-    
-      new Rent(this.vms[0], this.userList[0]),
-      new Rent(this.vms[1], this.userList[0]),
-      new Rent(this.vms[2], this.userList[1]),
-      new Rent(this.vms[3], this.userList[1]),
-      new Rent(this.vms[4], this.userList[2]),
-      new Rent(this.vms[5], this.userList[3]),
-      new Rent(this.vms[6], this.userList[3]),
-      new Rent(this.vms[7], this.userList[4]),
-      new Rent(this.vms[0], this.userList[5]),
-      new Rent(this.vms[2], this.userList[5])
-    )*/
-  
-
-    /*
-this.userList[0].enableUser();
-    this.userList[1].enableUser();*/
-
-    // this.toBeApproved=[];
-
-    // let adminToBe = ["ana", "pippo", "santi", "mile", "nahuel"];
-
-    // for (let i = 0; i < 5; i++) {
-    //   this.adminList.push(
-    //     new Admin([adminToBe[i], "ort"], [adminToBe[i], "123456789"])
-    //   );
-    // }
     this.vmsToBe = [
       "c7.small",
       "c7.medium",
@@ -115,17 +67,7 @@ this.userList[0].enableUser();
       [50, 6.5],
     ];
 
-    // for (let index = 0; index < this.vmsToBe.length; index++) {
-    //   this.vms.push(
-    //     new VM(
-    //       this.vmsToBe[index],
-    //       this.vmsTypes[index],
-    //       this.vmPrices[index][0],
-    //       this.vmPrices[index][1],
-    //       15
-    //     )
-    //   );
-    // }
+    
   }
   /**
    * @param {number} userID
