@@ -1,5 +1,5 @@
 class System {
-    constructor() {
+  constructor () {
     this.userList = [];
     this.adminList = [];
     this.userLoggedIn = null;
@@ -8,7 +8,7 @@ class System {
     this.rents = [];
     this.totalSum = 0;
 
-        this.adminList.push(
+    this.adminList.push(
       new Admin('ana', "ort", 'ana', "123456789"),
       new Admin('pippo', "ort", 'pippo', "123456789"),
       new Admin('santi', "ort", 'santi', "123456789"),
@@ -16,7 +16,7 @@ class System {
       new Admin('nahuel', "ort", 'nahuel', "123456789")
     );
 
-   
+
 
     this.userList.push(
       new User(`Filippo`, `Muro`, `F.Muro`, `Pippo.2005`, `4001919257537193`, `123`),
@@ -26,16 +26,16 @@ class System {
       new User(`Santiago`, `Comesaña`, `S.Comesaña`, `Santi.2001`, `4213000402995901`, `345`)
     );
     this.vms.push(
-      new VM(`c7.small`, `computo`, 20, 2.5,15),
-      new VM(`c7.medium`, `computo`, 30, 3.5,15),
-      new VM(`c7.large`, `computo`, 50, 6,15),
-      new VM(`r7.small`, `memoria`, 35, 4,15),
-      new VM(`r7.medium`, `memoria`, 50, 6.5,15),
-      new VM(`r7.large`, `memoria`, 60, 7,15),
-      new VM(`i7.medium`, `almacenamiento`, 30, 3.5,15),
-      new VM(`i7.large`, `almacenamiento`, 50, 6.5,15),
+      new VM(`c7.small`, `computo`, 20, 2.5, 15),
+      new VM(`c7.medium`, `computo`, 30, 3.5, 15),
+      new VM(`c7.large`, `computo`, 50, 6, 15),
+      new VM(`r7.small`, `memoria`, 35, 4, 15),
+      new VM(`r7.medium`, `memoria`, 50, 6.5, 15),
+      new VM(`r7.large`, `memoria`, 60, 7, 15),
+      new VM(`i7.medium`, `almacenamiento`, 30, 3.5, 15),
+      new VM(`i7.large`, `almacenamiento`, 50, 6.5, 15),
     );
-    
+
     this.vmsToBe = [
       "c7.small",
       "c7.medium",
@@ -67,7 +67,7 @@ class System {
       [50, 6.5],
     ];
 
-    
+
   }
   /**
    * @param {number} userID
@@ -99,7 +99,6 @@ class System {
     return false;
   }
   /**
-   *
    * @param {string} name
    * @param {string} lastName
    * @param {string} userName
@@ -271,6 +270,7 @@ class System {
    * @param {object} user
    */
   rentVMfromSystem(type, user = this.userLoggedIn) {
+    //Se renta VM desde la clase Sistema.
     let specialization = "";
     if (type.charAt(0) === "c") {
       specialization = "Cómputo";
@@ -279,10 +279,9 @@ class System {
     } else if (type.charAt(0) === "i") {
       specialization = "Almacenamiento";
     }
-    let rentPrice = 0;
-    let turnOnPrice = 0;
-    let stock = 0;
+  //Primero se verifica la especialidad de la VM.
     let VMType = null;
+    //Se asigna null a VMType. luego se le asigna el objeto correspondiente
     for (let index = 0; index < this.vmsToBe.length; index++) {
       if (type === this.vmsToBe[index]) {
         rentPrice = this.vmPrices[index][0];
@@ -292,6 +291,7 @@ class System {
       }
     }
     if (VMType.stock - 1 >= 0) {
+      //Se impide llegar a Stock negativo
       let beenRented = new Rent(VMType, user);
       // beenRented.rentVM();
       this.vms.push(beenRented);
@@ -322,14 +322,7 @@ class System {
 }
 let userID = 0;
 class User {
-  constructor(
-    name,
-    lastName,
-    userName,
-    password,
-    creditCard,
-    cvc,
-    isBlocked = false
+  constructor (name, lastName, userName, password, creditCard, cvc, isBlocked = false
   ) {
     this.userID = ++userID;
     this.name = name;
@@ -413,7 +406,7 @@ class User {
 
 let adminID = 0;
 class Admin {
-  constructor(name, lastName, userName, password) {
+  constructor (name, lastName, userName, password) {
     this.name = name;
     this.lastName = lastName;
     this.userName = userName;
@@ -443,7 +436,7 @@ class VM {
    * @param {string} turnOnPrice 
    * @param {string} stock 
    */
-  constructor(type, specialization, rentPrice, turnOnPrice, stock) {
+  constructor (type, specialization, rentPrice, turnOnPrice, stock) {
     this.type = type;
     this.specialization = specialization;
     this.id = `INSTANCE_ID_${nextVMId++}`;
@@ -461,7 +454,9 @@ class VM {
    */
 
   modifyStockByUnit(unit) {
+    //Mdificación del catálogo. Unit puede tomar valores 1 y -1
     if (unit === -1 && this.stock - 1 < this.rented) {
+      //Se verifica que el n uevo stock tras la suma de Unit no sea menor a la cantidad de VMs rentadas.
       system.logActivity(
         `Se intentó cambiar el stock de ${this.type}`,
         `SYSTEM ${system.userLoggedIn.userName}`,
@@ -486,6 +481,7 @@ class VM {
    * @returns undefined
    */
   rentVM(user = system.userLoggedIn) {
+    //El usuario por defecton es el logueado por las reglas de la aplicación (Ningún usuario que no estuviera ya logueado puede acceder a a funcionalidad de alquilar una VM)
     this.isStillRented = true;
     this.rented++;
     this.stock--;
@@ -514,7 +510,8 @@ class Rent {
    * @param {object : VM} VMType 
    * @param {object} user 
    */
-  constructor(VMType, user) {
+  constructor (VMType, user) {
+    //Se recibe en el primer argumento el objeto VM una de cuyas instancias se quiere alquilar
     this.VMType = VMType;
     this.rentID = rentID++;
     this.user = user;
@@ -538,6 +535,7 @@ class Rent {
    */
   turnOffVM() {
     if (this.state !== "OFF") {
+      //Se verifica que la instancia no estuviera ya apagada
       this.state = "OFF";
       system.logActivity(
         `Se apagó una instancia de VM: ${rentID}`,
@@ -552,6 +550,7 @@ class Rent {
    */
   turnOnVM() {
     if (this.state !== "ON") {
+      // Se verifica que la instancia no estuviera ya prendida
       this.state = "ON";
       this.turnedOnTimes++;
       system.totalSum += this.getOnPrice();

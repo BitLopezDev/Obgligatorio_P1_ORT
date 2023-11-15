@@ -5,6 +5,7 @@
  * @returns
  */
 function verifyString(theString, minLength = 2, maxLength = 50) {
+  //Se verifica la longitud del String.
   if (theString.length < minLength || theString.length > maxLength) {
     return false;
   }
@@ -17,9 +18,12 @@ function verifyString(theString, minLength = 2, maxLength = 50) {
  *
  *  */
 function hideElement(element) {
+  //Función para ocultar elementos HTML
   get(element).style.display = "none";
 }
 function showElementBlock(element) {
+  //Función para mostrar elementos HTML
+
   get(element).style.display = "block";
 }
 
@@ -32,11 +36,12 @@ function showElementBlock(element) {
  */
 
 function get(id) {
- 
+ //uso amplio de querySelector.
     return document.querySelector(id);
   
 }
 function getAll(id) {
+ //uso amplio de querySelectorAll.
  
   return document.querySelectorAll(id);
 
@@ -51,16 +56,12 @@ function getAll(id) {
  * @param {int} minLength
  * @returns boolean
  */
-function VerifyMayMin(
-  txt,
-  mayReq = 1,
-  minReq = 1,
-  minNumbs = 1,
-  minLength = 5
+function VerifyMayMin( txt, mayReq = 1, minReq = 1, minNumbs = 1, minLength = 5
 ) {
   //mayReq es la cantidad de mayusculas requeridas.
   //minReq es la cantidad de minusculasrequeridas.
   //minNumbs es la cantidad mínima de números requerida
+  //Función que verifica las mayúsculas y minúsculas
   txt = txt.trim();
   let summaMay = 0;
   let summaMin = 0;
@@ -83,12 +84,9 @@ function VerifyMayMin(
     }
   }
   // Si NO se cumple con el requisito de Mayusculas o minusculas return false, de lo contrario return true;
-  if (
-    summaMay < mayReq ||
-    summaMin < minReq ||
-    summaNumbs < minNumbs ||
-    txt.length < minLength
+  if (summaMay < mayReq || summaMin < minReq || summaNumbs < minNumbs || txt.length < minLength
   ) {
+    //Si no se cumple alguna de las condiciones se retorna false.
    
     return false;
   }
@@ -103,28 +101,17 @@ function VerifyMayMin(
  *purifyThyself('HOLA/ADIOS', ['/'], ' '); => 'HOLA ADIOS';
  */
 function purifyThyself(theString, impureChars, replacement) {
+  //Función que elimina elementos indeseados de un String
   let purified = theString.trim();
 
   for (let i = 0; i < impureChars.length; i++) {
     purified = purified.replaceAll(impureChars[i], replacement);
   }
-  console.log(purified);
+ 
   return purified;
 }
 
-/**
- * 
- * @param {string} msg
- * @param {object} err
- * 
- */
-function error(msg, err, throwErr = false) {
-  const dialog = get("#dialog");
-  const dialogP = (get("#dialogP").innerText = `${msg} || ${JSON.stringify(err)}`);
-  dialog.showModal();
-  if (throwErr) {
-   throw new Error(err);
- }
-}
+
+
 
 

@@ -1,11 +1,12 @@
 window.addEventListener("load", inicio);
-window.addEventListener("error", handleError);
+
 let system = new System();
 
 /**
  * @returns undefined
  */
 function inicio() {
+  //Función esconde elementos HTML que no debieran estar antes del Login
   get("#loginBtn").addEventListener("click", loginUser);
 
   get("#registerBtn").addEventListener("click", registerUser);
@@ -28,6 +29,7 @@ function inicio() {
  * @returns undefined
  */
 function loadVMsStart(){
+  //carga de alquileres conforme se indica en la letra del ejercicio
   system.rents.push(
     new Rent(system.vms[1], system.userList[0]),
     new Rent(system.vms[0], system.userList[0]),
@@ -48,6 +50,7 @@ function loadVMsStart(){
  * @returns undefined
  */
 function registerUser() {
+  //Función para registrar usuarios
   let registerPswd = get("#registerPswd").value;
   let registerName = get("#registerName").value;
   let registerLastName = get("#registerLastName").value;
@@ -77,9 +80,11 @@ function registerUser() {
     return;
   }
   if (VerifyMayMin(registerPswd, 1, 1, 1, 5)) {
+    //Se verifica la alidez de la contraseña
     if (registerPswd === registerPswd2) {
-      // hideLogin();
-      //TODO: Create user
+      //Se verifica que la contraseña y la verificación sean iguales
+  
+      //Se crea usuario a continuación habiéndose cumplido todos los requisitos
       system.addUser(
         registerName,
         registerLastName,
@@ -101,12 +106,15 @@ function registerUser() {
  */
 function loginUser() {
   get("#tInstancesRented").innerHTML = "";
+  //Se vacía la tabla de vms rentadas para que al iniciar sesión con un segundo usuario no figuren los alquileres del usuario anterior
+
   let loginUserName = get("#loginUserName").value;
   let loginPswd = get("#loginPswd").value;
   let userFound = system.findUserByCredentials(loginUserName, loginPswd);
+  //Se verifica que el usuario exista y no esté bloqueado o inhabilitado
   if (!userFound || !userFound.isUserEnabled() || userFound.isBlocked) {
     alert(
-      "Usuario y/o contraseña incorrectos o usuario no habilitado por administración"
+      "Usuario y/o contraseña incorrectos "
     );
   } else {
     let type = "client";
