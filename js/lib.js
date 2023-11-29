@@ -2,7 +2,7 @@
  * @param {string} theString
  * @param {int} minLength
  * @param {int} maxLength
- * @returns
+ * @returns boolean
  */
 function verifyString(theString, minLength = 2, maxLength = 50) {
   //Se verifica la longitud del String.
