@@ -280,6 +280,9 @@ class System {
       specialization = "Almacenamiento";
     }
   //Primero se verifica la especialidad de la VM.
+  let rentPrice = 0;
+  let turnOnPrice = 0;
+  let stock = 0;
     let VMType = null;
     //Se asigna null a VMType. luego se le asigna el objeto correspondiente
     for (let index = 0; index < this.vmsToBe.length; index++) {
